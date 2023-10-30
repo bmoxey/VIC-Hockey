@@ -25,7 +25,7 @@ func GetStart(inputDate: String) -> String {
     let diffComponents = Calendar.current.dateComponents([.day, .hour, .minute], from: today, to: startDate)
     let days = diffComponents.day
     let hrs = diffComponents.hour
-    if days! > -90 || (days! == 0 && hrs! > 0){
+    if days! > 0 || (days! == 0 && hrs! > 0){
         starts = "Starts in \(days!) days and \(hrs!) hours"
     } else {
         starts = ""

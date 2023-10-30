@@ -16,7 +16,7 @@ struct ScheduleView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(Array(Set(rounds.map { $0.played })).sorted(), id: \.self) { played in
+                ForEach(Array(Set(rounds.map { $0.played })).sorted(by: >), id: \.self) { played in
                     Section(header: Text(played)) {
                         ForEach(rounds, id: \.id) {item in
                             if item.played == played {
@@ -114,9 +114,9 @@ struct ScheduleView: View {
                     dateTime = String(line[i+2].trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "<br />", with: " @ "))
                     starts = GetStart(inputDate: dateTime)
                     if starts == "" {
-                        played = "Past"
+                        played = "Completed"
                     } else {
-                        played = "Future"
+                        played = "Upcoming"
                     }
                 }
                 if line[i].contains("col-md pb-3 pb-lg-0 text-center text-md-right text-lg-left") {
