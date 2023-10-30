@@ -6,16 +6,34 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @StateObject var networkMonitor = NetworkMonitor()
+    @State var stillLoading : Bool = false
+    @Environment(\.modelContext) var context
+    @Query(sort: \Teams.compID) var teams: [Teams]
+    @Query(filter: #Predicate<Teams> {$0.isCurrent} ) var currentTeam: [Teams]
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            if networkMonitor.isConnected {
+                if teams.isEmpty || stillLoading {
+                   
+                    SelectCompView(stillLoading: $stillLoading)
+                } else {
+                    if currentTeam.isEmpty {
+                        SelectClubView()
+                    } else {
+                        MainTabView()
+                    }
+                }
+            } else {
+                NoNetworkView()
+            }
         }
-        .padding()
+        .onAppear { networkMonitor.start() }
+        .onDisappear { networkMonitor.stop() }
     }
 }
 
