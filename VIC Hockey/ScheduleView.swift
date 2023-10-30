@@ -15,42 +15,50 @@ struct ScheduleView: View {
     @Query(filter: #Predicate<Teams> {$0.isCurrent} ) var currentTeam: [Teams]
     var body: some View {
         NavigationStack {
-            List(rounds, id: \.id) { item in
-                NavigationLink(destination: SelectTeamView(selectedText: item.venue)) {
-                    HStack {
-                        VStack {
-                            Text(item.roundNo)
-                            Image(ShortClubName(fullName: item.opponent))
-                                .resizable()
-                                .frame(width: 45, height: 45)
-                                .padding(.top, -6)
-                        }
-                        VStack {
-                            HStack {
-                                Text("\(item.dateTime)")
-                                Spacer()
-                            }
-                            HStack {
-                                Text("\(item.opponent) @ \(item.venue)")
-                                Spacer()
-                            }
-                            HStack {
-                                if item.starts != "" {
-                                    Text("\(item.starts)")
-                                        .foregroundColor(Color.red)
-                                } else {
-                                    Text(" Result: \(item.score) \(item.result) ")
-                                        .foregroundColor(.white)
-                                        .background(backgroundColor(for: item.result))
+            List {
+                ForEach(Array(Set(rounds.map { $0.played })).sorted(), id: \.self) { played in
+                    Section(header: Text(played)) {
+                        ForEach(rounds, id: \.id) {item in
+                            if item.played == played {
+                                NavigationLink(destination: SelectTeamView(selectedText: item.venue)) {
+                                    HStack {
+                                        VStack {
+                                            Text(item.roundNo)
+                                            Image(ShortClubName(fullName: item.opponent))
+                                                .resizable()
+                                                .frame(width: 45, height: 45)
+                                                .padding(.top, -6)
+                                        }
+                                        VStack {
+                                            HStack {
+                                                Text("\(item.dateTime)")
+                                                Spacer()
+                                            }
+                                            HStack {
+                                                Text("\(item.opponent) @ \(item.venue)")
+                                                Spacer()
+                                            }
+                                            HStack {
+                                                if item.starts != "" {
+                                                    Text("\(item.starts)")
+                                                        .foregroundColor(Color.red)
+                                                } else {
+                                                    Text(" Result: \(item.score) \(item.result) ")
+                                                        .foregroundColor(.white)
+                                                        .background(backgroundColor(for: item.result))
+                                                }
+                                                Spacer()
+                                            }
+                                        }
+                                    }
                                 }
-                                Text(item.played)
-                                Spacer()
+                                
                             }
                         }
                     }
                 }
             }
-            .background(Color("VICOrange"))
+//            .background(Color("VICOrange"))
             .scrollContentBackground(.hidden)
             .listStyle(GroupedListStyle())
             .task {
@@ -106,9 +114,9 @@ struct ScheduleView: View {
                     dateTime = String(line[i+2].trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "<br />", with: " @ "))
                     starts = GetStart(inputDate: dateTime)
                     if starts == "" {
-                        played = "Played"
+                        played = "Past"
                     } else {
-                        played = "Not Played"
+                        played = "Future"
                     }
                 }
                 if line[i].contains("col-md pb-3 pb-lg-0 text-center text-md-right text-lg-left") {
