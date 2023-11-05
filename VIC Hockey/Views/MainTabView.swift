@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
-import SwiftData
+//import SwiftData
 
 struct MainTabView: View {
-    @Environment(\.modelContext) var context
-    @Query(filter: #Predicate<Teams> {$0.isCurrent} ) var currentTeam: [Teams]
+//    @Environment(\.modelContext) var context
+//    @Query(filter: #Predicate<Teams> {$0.isCurrent} ) var currentTeam: [Teams]
     var body: some View {
         TabView {
             ScheduleView()

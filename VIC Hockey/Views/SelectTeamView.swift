@@ -9,13 +9,12 @@ import SwiftUI
 import SwiftData
 
 struct SelectTeamView: View {
-    @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
-    @State var selectedText: String
+    @State var myClub: String
     @Query (sort: \Teams.divType) var teams: [Teams]
     var myTeams: [Teams] {
         return teams.filter { team in
-            return team.clubName == selectedText
+            return team.clubName == myClub
         }
     }
     var mySortedTeams: [Teams] {
@@ -49,6 +48,7 @@ struct SelectTeamView: View {
                                 }
                                 .onTapGesture {
                                     team.isCurrent = true
+                                    team.isUsed = true
                                 }
                             }
                         }
@@ -60,16 +60,16 @@ struct SelectTeamView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 VStack {
-                    Text(selectedText)
-                        .fontWeight(.bold)
+                    Text(myClub)
                         .font(.footnote)
+                        .fontWeight(.bold)
                         .foregroundStyle(Color(.white))
                     Text("Select your team")
                         .foregroundStyle(Color(.white))
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
-                Image(selectedText)
+                Image(myClub)
                     .resizable()
                     .frame(width: 45, height: 45)
             }
@@ -80,5 +80,5 @@ struct SelectTeamView: View {
 }
 
 #Preview {
-    SelectTeamView(selectedText: "MHSOB")
+    SelectTeamView(myClub: "MHSOB")
 }

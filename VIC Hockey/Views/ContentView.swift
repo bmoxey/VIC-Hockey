@@ -17,9 +17,10 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            if networkMonitor.isConnected {
+            if !networkMonitor.isConnected {
+                NoNetworkView()
+            } else {
                 if teams.isEmpty || stillLoading {
-                   
                     SelectCompView(stillLoading: $stillLoading)
                 } else {
                     if currentTeam.isEmpty {
@@ -28,8 +29,6 @@ struct ContentView: View {
                         MainTabView()
                     }
                 }
-            } else {
-                NoNetworkView()
             }
         }
         .onAppear { networkMonitor.start() }

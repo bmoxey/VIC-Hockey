@@ -9,7 +9,6 @@ import SwiftUI
 import SwiftData
 
 struct SelectClubView: View {
-    @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
     @Query(sort: \Teams.clubName) var teams: [Teams]
     @State private var showingConfirmation = false
@@ -22,13 +21,13 @@ struct SelectClubView: View {
                         HStack {
                             Image(club)
                                 .resizable()
-                                .scaledToFit()
                                 .frame(width: 45, height: 45)
-                                .padding(.horizontal, 8)
+                                .padding(.horizontal, 4)
+                                .padding(.vertical, -4)
                             Text(club)
                             Spacer()
                         }
-                        .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
+                        .padding(.leading, -8)
                     }
                 }
             }
