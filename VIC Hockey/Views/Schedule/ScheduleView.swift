@@ -81,7 +81,7 @@ struct ScheduleView: View {
     
     
     func loadData() async {
-        var myRound = Round(id: UUID(), roundNo: "", fullRound: "", dateTime: "", venue: "", opponent: "", homeTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "", played: "", game: "")
+        var myRound = Round(id: UUID(), roundNo: "", fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "", played: "", game: "")
         rounds = []
         var lines: [String] = []
         (lines, errURL) = GetUrl(url: "https://www.hockeyvictoria.org.au/teams/" + currentTeam[0].compID + "/&t=" + currentTeam[0].teamID)
@@ -114,7 +114,7 @@ struct ScheduleView: View {
                     } else {
                         myRound.result = GetPart(fullString: GetScore(fullString: String(lines[i+2])), partNumber: 14)
                     }
-                    myRound.homeTeam = GetHomeTeam(result: myRound.result, homeGoals: myRound.homeGoals, awayGoals: myRound.awayGoals, myTeam: currentTeam[0].teamName, opponent: myRound.opponent, rounds: rounds, venue: myRound.venue)
+                    (myRound.homeTeam, myRound.awayTeam) = GetHomeTeam(result: myRound.result, homeGoals: myRound.homeGoals, awayGoals: myRound.awayGoals, myTeam: currentTeam[0].teamName, opponent: myRound.opponent, rounds: rounds, venue: myRound.venue)
                 }
                 
             }

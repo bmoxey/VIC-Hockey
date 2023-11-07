@@ -82,8 +82,7 @@ struct DetailScheduleView: View {
 }
 
 #Preview {
-    DetailScheduleView(myTeam: "MHSOB", round: Round(id: UUID(), roundNo: "1", fullRound: "Round 1", dateTime: "Sat 15 Apr 2023 @ 14:00", venue: "MBT", opponent: "Hawthorn", homeTeam: "Hawthorn", homeGoals: 6, awayGoals: 11, score: "6 - 7", starts: "", result: "Win", played: "Completed", game: "1439971"))
+    DetailScheduleView(myTeam: "MHSOB", round: Round(id: UUID(), roundNo: "1", fullRound: "Round 1", dateTime: "Sat 15 Apr 2023 @ 14:00", field: "MBT", venue: "Melbourne Hockey Field", address: "21 Smith St", opponent: "Hawthorn", homeTeam: "Hawthorn", awayTeam: "MHSOB", homeGoals: 6, awayGoals: 11, score: "6 - 7", starts: "", result: "Win", played: "Completed", game: "1439971"))
 }
 
 
-//(myTeam: "MHSOB", round: Round(id: 1, roundNo: "1", fullRound: "Round 1", dateTime: "Sat 15 Apr 2023 @ 14:00", venue: "MBT", opponent: "Hawthorn", homeTeam: "Hawthorn", homeGoals: 6, awayGoals: 11, score: "6 - 7", starts: "", result: "Win", played: "Completed", game: "1439971"))
