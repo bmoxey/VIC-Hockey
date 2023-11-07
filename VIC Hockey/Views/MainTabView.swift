@@ -6,41 +6,58 @@
 //
 
 import SwiftUI
-//import SwiftData
 
 struct MainTabView: View {
-//    @Environment(\.modelContext) var context
-//    @Query(filter: #Predicate<Teams> {$0.isCurrent} ) var currentTeam: [Teams]
+    @StateObject private var sharedData = SharedData()
     var body: some View {
-        TabView {
+        TabView(selection: $sharedData.activeTabIndex) {
             ScheduleView()
+                .onAppear {
+                    sharedData.activeTabIndex = 0
+                }
+                .environmentObject(sharedData)
                 .tabItem {
                     Image(systemName: "calendar")
                     Text("Schedule")
                 }
-            Text("bb")
+                .tag(0)
+            LadderView()
+                .onAppear {
+                    sharedData.activeTabIndex = 1
+                }
+                .environmentObject(sharedData)
                 .tabItem {
                     Image(systemName: "list.number")
                     Text("Ladder")
                 }
+                .tag(1)
             Text("cc")
                 .tabItem {
                     Image(systemName: "sportscourt.circle")
                     Text("Round")
                 }
-            Text("cd")
+                .tag(2)
+            Test()
+                .onAppear {
+                    sharedData.activeTabIndex = 3
+                }
+
                 .tabItem {
                     Image(systemName: "chart.bar.xaxis")
                     Text("Stats")
                 }
-            Text("dd")
-                .tabItem {
-                    Image(systemName: "person.fill")
-                    Text("Settings")
+                .tag(3)
+            SetTeamsView()
+                .onAppear {
+                    sharedData.activeTabIndex = 4
                 }
-            
+                .environmentObject(sharedData)
+                .tabItem {
+                    Image(systemName: "person.text.rectangle.fill")
+                    Text("Teams")
+                }
+                .tag(4)
         }
-        .accentColor(Color(.white))
     }
 }
 

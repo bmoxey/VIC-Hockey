@@ -10,56 +10,70 @@ import SwiftData
 
 struct ScheduleView: View {
     @Environment(\.modelContext) var context
+    @EnvironmentObject private var sharedData: SharedData
+    @State private var errURL = ""
     @State private var rounds = [Round]()
-    @State private var haveData = false
     @Query(filter: #Predicate<Teams> {$0.isCurrent} ) var currentTeam: [Teams]
     var body: some View {
-        if !haveData {
-            Text("Loading...")
-                .font(.largeTitle)
-                .foregroundStyle(Color(.gray))
-                .task {
-                    await loadData()
-                }
-        } else {
+        if !currentTeam.isEmpty {
             NavigationStack {
-                List {
-                    ForEach(["Upcoming", "Completed"], id: \.self) { played in
-                        let filteredRounds = rounds.filter { $0.played == played }
-                        if !filteredRounds.isEmpty {
-                                Section(header: Text(played)) {
-                                    ForEach(filteredRounds, id: \.id) { item in
-                                        NavigationLink(destination: GameView(gameNumber: item.game, myTeam: currentTeam[0].teamName)) {
-                                            ContentSubview(round: item)
+                VStack {
+                    if sharedData.lastSchedule != currentTeam[0].teamName && sharedData.activeTabIndex == 0 {
+                        LoadingView()
+                            .task { await loadData() }
+                    } else {
+                        if errURL != "" {
+                            InvalidURLView(url: errURL)
+                        } else {
+                            List {
+                                ForEach(["Upcoming", "Completed"], id: \.self) { played in
+                                    let filteredRounds = rounds.filter { $0.played == played }
+                                    if !filteredRounds.isEmpty {
+                                        Section(header: Text(played)) {
+                                            ForEach(filteredRounds, id: \.id) { item in
+                                                if !currentTeam.isEmpty {
+                                                    if item.opponent == "BYE" {
+                                                        DetailScheduleView(myTeam: String(currentTeam[0].teamName), round: item)
+                                                    } else {
+                                                        NavigationLink(destination: GameView(gameNumber: item.game, myTeam: currentTeam[0].teamName)) {
+                                                            DetailScheduleView(myTeam: String(currentTeam[0].teamName), round: item)
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
+                                
                             }
+                            .refreshable {
+                                sharedData.lastSchedule = ""
+                            }
+                        }
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
-                
                 .toolbar {
                     ToolbarItem(placement: .principal) {
-                        VStack {
-                            Text(currentTeam[0].divName)
-                                .font(.footnote)
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color(.white))
-                            Text(currentTeam[0].teamName)
-                                .foregroundStyle(Color(.white))
-                        }
+                        Text(currentTeam[0].divName)
+                            .fontWeight(.bold)
+                            .foregroundStyle(Color("ForegroundColor"))
                     }
                     ToolbarItem(placement: .topBarLeading) {
-                        Image(currentTeam[0].teamName)
+                        Image(systemName: "calendar")
+                            .foregroundStyle(Color("AccentColor"))
+                            .font(.title3)
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Image(ShortClubName(fullName: currentTeam[0].teamName))
                             .resizable()
                             .frame(width: 45, height: 45)
                     }
                 }
                 .padding(.horizontal, -8)
-                .toolbarBackground(Color("VICBlue"), for: .navigationBar)
+                .toolbarBackground(Color("BackgroundColor"), for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
-                .toolbarBackground(Color("VICBlue"), for: .tabBar)
+                .toolbarBackground(Color("BackgroundColor"), for: .tabBar)
                 .toolbarBackground(.visible, for: .tabBar)
             }
         }
@@ -67,131 +81,50 @@ struct ScheduleView: View {
     
     
     func loadData() async {
-        var id: Int = 0
-        var round: String = ""
-        var dateTime: String = ""
-        var venue: String = ""
-        var opponent: String = ""
-        var score: String = ""
-        var starts: String = ""
-        var result: String = ""
-        var played: String = ""
-        var game: String = ""
+        var myRound = Round(id: UUID(), roundNo: "", fullRound: "", dateTime: "", venue: "", opponent: "", homeTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "", played: "", game: "")
         rounds = []
-        guard let url = URL(string: "https://www.hockeyvictoria.org.au/teams/" + currentTeam[0].compID + "/&t=" + currentTeam[0].teamID) else {
-            print("Invalid URL")
-            return
-        }
-        
-        do {
-            let html = try String.init(contentsOf: url)
-            let line = html.split(whereSeparator: \.isNewline)
-            for i in 0 ..< line.count {
-                if line[i].contains("col-md pb-3 pb-lg-0 text-center text-md-left") {
-                    id += 1
-                    round = GetRound(fullString: GetPart(fullString: String(line[i+1]), partNumber: 2))
-                    dateTime = String(line[i+2].trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "<br />", with: " @ "))
-                    starts = GetStart(inputDate: dateTime)
-                    if starts == "" {
-                        played = "Completed"
-                    } else {
-                        played = "Upcoming"
-                    }
-                }
-                if line[i].contains("col-md pb-3 pb-lg-0 text-center text-md-right text-lg-left") {
-                    venue = GetPart(fullString: String(line[i+2]), partNumber: 2)
-                }
-                if line[i].contains("col-lg-3 pb-3 pb-lg-0 text-center") {
-                    if venue == "/div" {
-                        venue = "BYE"
-                        opponent = "BYE"
-                        score = "BYE"
-                    } else {
-                        opponent = ShortTeamName(fullName: GetPart(fullString: String(line[i+2]), partNumber: 6))
-                        score = GetPart(fullString: GetScore(fullString: String(line[i+2])), partNumber: 9)
-                        if score == "div" {
-                            score = ""
-                            result = ""
-                        } else {
-                            result = GetPart(fullString: GetScore(fullString: String(line[i+2])), partNumber: 14)
-                        }
-                    }
-                }
-                if line[i].contains("https://www.hockeyvictoria.org.au/game/") {
-                    game = GetPart(fullString: String(line[i]), partNumber: 4)
-                    game = String(game.split(separator: "/")[3])
-                    rounds.append(Round(id: id, roundNo: round, dateTime: dateTime, venue: venue, opponent: opponent, score: score, starts: starts, result: result, played: played, game: game))
-                }
+        var lines: [String] = []
+        (lines, errURL) = GetUrl(url: "https://www.hockeyvictoria.org.au/teams/" + currentTeam[0].compID + "/&t=" + currentTeam[0].teamID)
+        for i in 0 ..< lines.count {
+            if lines[i].contains("col-md pb-3 pb-lg-0 text-center text-md-left") {
+                myRound.fullRound = GetPart(fullString: String(lines[i+1]), partNumber: 2)
+                myRound.roundNo = GetRound(fullString: myRound.fullRound)
+                myRound.dateTime = String(lines[i+2].trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "<br />", with: " @ "))
+                myRound.starts = GetStart(inputDate: myRound.dateTime)
+                if myRound.starts == "" { myRound.played = "Completed" }
+                else { myRound.played = "Upcoming" }
             }
-        } catch {
-            print("Invalid data")
-            
-        }
-        haveData = true
-    }
-    
-    func backgroundColor(for result: String) -> Color {
-        switch result {
-        case "Win":
-            return Color.green
-        case "Loss":
-            return Color.red
-        case "Draw":
-            return Color.gray
-        default:
-            return Color.cyan
-        }
-    }
-}
-
-
-struct ContentSubview: View {
-    let round: Round
-    var body: some View {
-        HStack {
-            VStack {
-                Text(round.roundNo)
-                Image(ShortClubName(fullName: round.opponent))
-                    .resizable()
-                    .frame(width: 45, height: 45)
-                    .padding(.top, -6)
+            if lines[i].contains("col-md pb-3 pb-lg-0 text-center text-md-right text-lg-left") {
+                myRound.venue = GetPart(fullString: String(lines[i+2]), partNumber: 2)
             }
-            VStack {
-                HStack {
-                    Text("\(round.dateTime)")
-                    Spacer()
-                }
-                HStack {
-                    Text("\(round.opponent) @ \(round.venue)")
-                    Spacer()
-                }
-                HStack {
-                    if round.starts != "" {
-                        Text("\(round.starts)")
-                            .foregroundColor(Color.red)
+            if lines[i].contains("col-lg-3 pb-3 pb-lg-0 text-center") {
+                if myRound.venue == "/div" {
+                    myRound.venue = "BYE"
+                    myRound.opponent = "BYE"
+                    myRound.score = "BYE"
+                    myRound.result = "BYE"
+                } else {
+                    myRound.opponent = ShortTeamName(fullName: GetPart(fullString: String(lines[i+2]), partNumber: 6))
+                    myRound.score = GetPart(fullString: GetScore(fullString: String(lines[i+2])), partNumber: 9)
+                    (myRound.homeGoals, myRound.awayGoals) = GetScores(scores: myRound.score)
+                    
+                    if myRound.score == "div" {
+                        myRound.score = ""
+                        myRound.result = ""
                     } else {
-                        Text(" Result: \(round.score) \(round.result) ")
-                            .foregroundColor(.white)
-                            .background(backgroundColor(for: round.result))
+                        myRound.result = GetPart(fullString: GetScore(fullString: String(lines[i+2])), partNumber: 14)
                     }
-                    Spacer()
+                    myRound.homeTeam = GetHomeTeam(result: myRound.result, homeGoals: myRound.homeGoals, awayGoals: myRound.awayGoals, myTeam: currentTeam[0].teamName, opponent: myRound.opponent, rounds: rounds, venue: myRound.venue)
                 }
+                
+            }
+            if lines[i].contains("https://www.hockeyvictoria.org.au/game/") {
+                myRound.game = String(GetPart(fullString: String(lines[i]), partNumber: 4).split(separator: "/")[3])
+                myRound.id = UUID()
+                rounds.append(myRound)
             }
         }
-        .padding(.horizontal, -8)
-    }
-    
-    func backgroundColor(for result: String) -> Color {
-        switch result {
-        case "Win":
-            return Color.green
-        case "Loss":
-            return Color.red
-        case "Draw":
-            return Color.gray
-        default:
-            return Color.cyan
-        }
+        sharedData.lastSchedule = currentTeam[0].teamName
     }
 }
 

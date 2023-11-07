@@ -1,18 +1,18 @@
-//
-//  Test2.swift
-//  VIC Hockey
-//
-//  Created by Brett Moxey on 5/11/2023.
-//
-
 import SwiftUI
 
 struct Test2: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List {
+            ForEach(0..<10, id: \.self) { index in
+                Text("Row \(index)")
+                    .listRowSeparatorTint(index == 3 ? Color("AccentColor") : Color(UIColor.separator)) // Change color based on row index
+            }
+        }
     }
 }
 
-#Preview {
-    Test2()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        Test2()
+    }
 }

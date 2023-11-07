@@ -8,11 +8,27 @@
 import SwiftUI
 
 struct DetailSearchView: View {
+    var searchComp: String
+    var searchDiv: String
+    var teamsFound: Int
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Spacer()
+            Text("🔍")
+                .font(.system(size: 128, weight: .bold))
+            Text("")
+            Text("Searching ...")
+                .font(.largeTitle)
+            Text("")
+            Text(searchComp)
+            Text(searchDiv)
+            Text("Teams found: \(teamsFound)")
+            Spacer()
+            Spacer()
+        }
     }
 }
 
 #Preview {
-    DetailSearchView()
+    DetailSearchView(searchComp: "2023 Term 4 Summer", searchDiv: "Men's Premier League - 2023", teamsFound: 5)
 }

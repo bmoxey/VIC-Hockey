@@ -10,21 +10,21 @@ import SwiftData
 
 struct ContentView: View {
     @StateObject var networkMonitor = NetworkMonitor()
-    @State var stillLoading : Bool = false
     @Environment(\.modelContext) var context
-    @Query(sort: \Teams.compID) var teams: [Teams]
+    @State var stillLoading : Bool = false
+    @Query var teams: [Teams]
     @Query(filter: #Predicate<Teams> {$0.isCurrent} ) var currentTeam: [Teams]
-
+    
     var body: some View {
         VStack {
             if !networkMonitor.isConnected {
                 NoNetworkView()
             } else {
                 if teams.isEmpty || stillLoading {
-                    SelectCompView(stillLoading: $stillLoading)
+                    SelectCompetitionView(stillLoading: $stillLoading)
                 } else {
                     if currentTeam.isEmpty {
-                        SelectClubView()
+                        SelectClubView(isNavigationLink: false)
                     } else {
                         MainTabView()
                     }

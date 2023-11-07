@@ -12,7 +12,7 @@ struct ConfirmationAlertView: UIViewControllerRepresentable {
     let message: String
     let onConfirm: () -> Void
     let onCancel: () -> Void
-
+    
     func makeUIViewController(context: Context) -> UIViewController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
@@ -23,7 +23,7 @@ struct ConfirmationAlertView: UIViewControllerRepresentable {
         }))
         return alertController
     }
-
+    
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
         // Update the view controller if needed
     }

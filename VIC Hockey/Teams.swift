@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class Teams {
+class Teams : ObservableObject {
     var compName: String
     var compID: String
     var divName: String

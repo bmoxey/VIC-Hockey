@@ -8,11 +8,26 @@
 import SwiftUI
 
 struct InvalidURLView: View {
+    var url: String
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Spacer()
+        Image("swearing")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 240, height: 240)
+            .foregroundStyle(Color(.gray))
+        Text("INVALID URL")
+            .font(.largeTitle)
+            .foregroundStyle(Color(.red))
+        Text(url)
+        Text("Teams database may need to be rebuilt")
+            .foregroundStyle(Color(.red))
+            .fontWeight(.bold)
+        Spacer()
+        Spacer()
     }
 }
 
 #Preview {
-    InvalidURLView()
+    InvalidURLView(url: "https://www.hockeyvictoria.org.au/games/14682/&r=1&d=26171")
 }

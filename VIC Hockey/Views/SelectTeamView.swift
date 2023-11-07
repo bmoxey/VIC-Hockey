@@ -10,8 +10,10 @@ import SwiftData
 
 struct SelectTeamView: View {
     @Environment(\.modelContext) var context
+    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject private var sharedData: SharedData
     @State var myClub: String
-    @Query (sort: \Teams.divType) var teams: [Teams]
+    @Query var teams: [Teams]
     var myTeams: [Teams] {
         return teams.filter { team in
             return team.clubName == myClub
@@ -27,7 +29,7 @@ struct SelectTeamView: View {
         }
     }
     var body: some View {
-        NavigationStack {
+        NavigationView {
             List {
                 ForEach(Dictionary(grouping: myTeams, by: { $0.divType }).sorted(by: { $0.key < $1.key }), id: \.key) { (key, divType) in
                     Section(header: Text(key).font(.largeTitle)) {
@@ -47,8 +49,18 @@ struct SelectTeamView: View {
                                     }
                                 }
                                 .onTapGesture {
+                                    var count = 0
+                                    for index in 0 ..< teams.count {
+                                        if teams[index].isCurrent == true {
+                                            count = count + 1
+                                            teams[index].isCurrent = false
+                                        }
+                                    }
                                     team.isCurrent = true
                                     team.isUsed = true
+                                    if count > 0 {
+                                        sharedData.activeTabIndex = 0
+                                    }
                                 }
                             }
                         }
@@ -57,16 +69,12 @@ struct SelectTeamView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+        .accentColor(Color("AccentColor"))
         .toolbar {
             ToolbarItem(placement: .principal) {
-                VStack {
-                    Text(myClub)
-                        .font(.footnote)
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color(.white))
-                    Text("Select your team")
-                        .foregroundStyle(Color(.white))
-                }
+                Text("Select your team")
+                    .foregroundStyle(Color("ForegroundColor"))
+                    .fontWeight(.bold)
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Image(myClub)
@@ -74,7 +82,7 @@ struct SelectTeamView: View {
                     .frame(width: 45, height: 45)
             }
         }
-        .toolbarBackground(Color("VICBlue"), for: .navigationBar)
+        .toolbarBackground(Color("BackgroundColor"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
     }
 }

@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import SwiftUI
 
 func GetRound(fullString: String) -> String {
-    var newString = fullString.replacingOccurrences(of: "Round ", with: "R")
+    let newString = fullString.replacingOccurrences(of: "Round ", with: "R")
         .replacingOccurrences(of: "Finals", with: "F")
         .replacingOccurrences(of: "Semi ", with: "S")
         .replacingOccurrences(of: "Preliminary ", with: "P")
@@ -79,6 +80,7 @@ func ShortTeamName(fullName: String) -> String {
         .replacingOccurrences(of: " Sports INC", with: "")
         .replacingOccurrences(of: " Section", with: "")
         .replacingOccurrences(of: " United", with: " Utd")
+        .replacingOccurrences(of: "Hockey ", with: "")
         .replacingOccurrences(of: "University", with: "Uni")
         .replacingOccurrences(of: "Eastern Christian Organisation (ECHO)", with: "ECHO")
         .replacingOccurrences(of: "Melbourne High School Old Boys", with: "MHSOB")
@@ -121,6 +123,7 @@ func ShortClubName(fullName: String) -> String {
         .replacingOccurrences(of: " Leopards", with: "")
         .replacingOccurrences(of: " Sharks", with: "")
         .replacingOccurrences(of: " Knights", with: "")
+        .replacingOccurrences(of: " Saffrons", with: "")
         .replacingOccurrences(of: " Cannons", with: "")
         .replacingOccurrences(of: " Ospreys", with: "")
         .replacingOccurrences(of: " Falcons", with: "")
@@ -199,6 +202,100 @@ func ShortCompName(fullName: String) -> String {
     let newString = fullName.replacingOccurrences(of: " Competition", with: "")
         .replacingOccurrences(of: " Hockey League RHL", with: "")
     return newString
+}
+
+func fetchData(from url: URL) -> String? {
+    var result: String?
+    let semaphore = DispatchSemaphore(value: 0)
+    
+    URLSession.shared.dataTask(with: url) { data, response, error in
+        defer { semaphore.signal() }
+        if let error = error {
+            print("Error: \(error)")
+            return
+        }
+        if let data = data, let htmlString = String(data: data, encoding: .utf8) {
+            result = htmlString
+        }
+    }.resume()
+    semaphore.wait()
+    
+    return result
+}
+
+
+func GetUrl(url: String) -> ([String], String) {
+    guard let myUrl = URL(string: url)
+    else {
+        return ([], url)
+    }
+    do {
+        guard let html = fetchData(from: myUrl)
+        else {
+            return ([], url)
+        }
+//        let html = try String.init(contentsOf: myUrl)
+        return (html.components(separatedBy: .newlines), "")
+    }
+}
+
+func GetScores(scores: String) -> (Int, Int) {
+    var homeScore = 0
+    var awayScore = 0
+    if scores.contains("-") {
+        let myScores = scores.components(separatedBy: "-")
+        homeScore = Int(myScores[0].trimmingCharacters(in: .whitespaces)) ?? 0
+        awayScore = Int(myScores[1].trimmingCharacters(in: .whitespaces)) ?? 0
+    }
+    return (homeScore, awayScore)
+}
+
+func GetHomeTeam(result: String, homeGoals: Int, awayGoals: Int, myTeam: String, opponent: String, rounds: [Round], venue: String) -> String {
+    var homeTeam = myTeam
+    if result == "Win" {
+        if homeGoals > awayGoals {
+            homeTeam = myTeam
+        } else {
+            homeTeam = opponent
+        }
+    }
+    if result == "Loss" {
+        if homeGoals > awayGoals {
+            homeTeam = opponent
+        } else {
+            homeTeam = myTeam
+        }
+    }
+    if result == "Draw" {
+        let venueFrequency = rounds.reduce(into: [:]) { counts, round in
+            counts[round.venue, default: 0] += 1
+        }
+        if let mostCommonVenue = venueFrequency.max(by: { $0.value < $1.value })?.key {
+            if venue == mostCommonVenue {
+                homeTeam = myTeam
+            } else {
+                homeTeam = opponent
+            }
+        } else {
+            homeTeam = opponent
+        }
+    }
+    return homeTeam
+}
+
+func BackgroundColor(result: String) -> Color {
+    switch result {
+    case "Win":
+        return Color.green
+    case "Loss":
+        return Color.red
+    case "Draw":
+        return Color.gray
+    case "BYE":
+        return Color.blue
+    default:
+        return Color.cyan
+    }
 }
 
 extension String {
