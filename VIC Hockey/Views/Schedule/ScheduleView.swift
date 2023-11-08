@@ -20,7 +20,7 @@ struct ScheduleView: View {
                 VStack {
                     if sharedData.lastSchedule != currentTeam[0].teamID && sharedData.activeTabIndex == 0 {
                         LoadingView()
-                            .task { await loadData() }
+                            .task { await myloadData() }
                     } else {
                         if errURL != "" {
                             InvalidURLView(url: errURL)
@@ -78,55 +78,8 @@ struct ScheduleView: View {
             }
         }
     }
-    
-    
-    func loadData() async {
-        var myRound = Round(id: UUID(), roundNo: "", fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "", played: "", game: "")
-        rounds = []
-        var lines: [String] = []
-        (lines, errURL) = GetUrl(url: "https://www.hockeyvictoria.org.au/teams/" + currentTeam[0].compID + "/&t=" + currentTeam[0].teamID)
-        for i in 0 ..< lines.count {
-            if lines[i].contains("There are no draws to show") {
-                errURL = "There are no draws to show"
-            }
-            if lines[i].contains("col-md pb-3 pb-lg-0 text-center text-md-left") {
-                myRound.fullRound = GetPart(fullString: String(lines[i+1]), partNumber: 2)
-                myRound.roundNo = GetRound(fullString: myRound.fullRound)
-                myRound.dateTime = String(lines[i+2].trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "<br />", with: " @ "))
-                myRound.starts = GetStart(inputDate: myRound.dateTime)
-                if myRound.starts == "" { myRound.played = "Completed" }
-                else { myRound.played = "Upcoming" }
-            }
-            if lines[i].contains("col-md pb-3 pb-lg-0 text-center text-md-right text-lg-left") {
-                myRound.field = GetPart(fullString: String(lines[i+2]), partNumber: 2)
-            }
-            if lines[i].contains("col-lg-3 pb-3 pb-lg-0 text-center") {
-                if myRound.field == "/div" {
-                    myRound.field = "BYE"
-                    myRound.opponent = "BYE"
-                    myRound.score = "BYE"
-                    myRound.result = "BYE"
-                } else {
-                    myRound.opponent = ShortTeamName(fullName: GetPart(fullString: String(lines[i+2]), partNumber: 6))
-                    myRound.score = GetPart(fullString: GetScore(fullString: String(lines[i+2])), partNumber: 9)
-                    (myRound.homeGoals, myRound.awayGoals) = GetScores(scores: myRound.score)
-                    
-                    if myRound.score == "div" {
-                        myRound.score = ""
-                        myRound.result = ""
-                    } else {
-                        myRound.result = GetPart(fullString: GetScore(fullString: String(lines[i+2])), partNumber: 14)
-                    }
-                    (myRound.homeTeam, myRound.awayTeam) = GetHomeTeam(result: myRound.result, homeGoals: myRound.homeGoals, awayGoals: myRound.awayGoals, myTeam: currentTeam[0].teamName, opponent: myRound.opponent, rounds: rounds, venue: myRound.venue)
-                }
-                
-            }
-            if lines[i].contains("https://www.hockeyvictoria.org.au/game/") {
-                myRound.game = String(GetPart(fullString: String(lines[i]), partNumber: 4).split(separator: "/")[3])
-                myRound.id = UUID()
-                rounds.append(myRound)
-            }
-        }
+    func myloadData() async {
+        (rounds, errURL) = GetRoundData(mycompID: currentTeam[0].compID, myTeamID: currentTeam[0].teamID, myTeamName: currentTeam[0].teamName)
         sharedData.lastSchedule = currentTeam[0].teamID
     }
 }

@@ -24,7 +24,7 @@ struct GameView: View {
         NavigationStack {
             if !haveData {
                 LoadingView()
-                    .task { await loadData() }
+                    .task { await myloadData() }
             } else {
                 if errURL != "" {
                     InvalidURLView(url: errURL)
@@ -92,6 +92,11 @@ struct GameView: View {
         }
     }
     
+    func myloadData() async {
+        (myRound, homePlayers, awayPlayers, otherGames, errURL) = GetGameData(gameNumber: gameNumber, myTeam: myTeam)
+        haveData = true
+    }
+    
     func loadData() async {
         var lines: [String] = []
         var myTeamName: String = ""
@@ -100,8 +105,6 @@ struct GameView: View {
         for i in 0 ..< lines.count {
             if lines[i].contains("Match not found.") {
                 errURL = "Match not found."
-                print(sharedData.lastSchedule)
-                print(myTeam)
             }
             if lines[i].contains("<h1 class=\"h3 mb-0\">") {
                 if lines[i+1].contains("&middot;") {

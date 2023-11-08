@@ -38,6 +38,8 @@
 		AFB7E1572AE90C0200035FD9 /* SelectClubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB7E1562AE90C0200035FD9 /* SelectClubView.swift */; };
 		AFD604812AED20980013CCC5 /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD604802AED20980013CCC5 /* ConfirmationAlertView.swift */; };
 		AFF6CAA22AE74BC5001CD67A /* SelectTeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF6CAA12AE74BC5001CD67A /* SelectTeamView.swift */; };
+		AFFA64122AFBBFAA005A9BCC /* GetRoundData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA64112AFBBFAA005A9BCC /* GetRoundData.swift */; };
+		AFFA64142AFBBFF5005A9BCC /* GetGameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA64132AFBBFF5005A9BCC /* GetGameData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +75,8 @@
 		AFB7E1562AE90C0200035FD9 /* SelectClubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectClubView.swift; sourceTree = "<group>"; };
 		AFD604802AED20980013CCC5 /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		AFF6CAA12AE74BC5001CD67A /* SelectTeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTeamView.swift; sourceTree = "<group>"; };
+		AFFA64112AFBBFAA005A9BCC /* GetRoundData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRoundData.swift; sourceTree = "<group>"; };
+		AFFA64132AFBBFF5005A9BCC /* GetGameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGameData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +196,7 @@
 		AFD33EB72AF1E4E900F8F7ED /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AFFA64102AFBBF72005A9BCC /* GetData */,
 				AF89BD722AFA506200F48DA0 /* Environment */,
 				AF89BD732AFA50A100F48DA0 /* Competition */,
 				AF89BD712AFA504600F48DA0 /* Schedule */,
@@ -202,6 +207,15 @@
 				AF134F5E2AF6965C0091A4CF /* Test2.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		AFFA64102AFBBF72005A9BCC /* GetData */ = {
+			isa = PBXGroup;
+			children = (
+				AFFA64112AFBBFAA005A9BCC /* GetRoundData.swift */,
+				AFFA64132AFBBFF5005A9BCC /* GetGameData.swift */,
+			);
+			path = GetData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFFA64142AFBBFF5005A9BCC /* GetGameData.swift in Sources */,
 				AF4B940A2AF889C20078A584 /* SelectCompetitionView.swift in Sources */,
 				AF97398A2AF28D8D000580AE /* SetTeamsView.swift in Sources */,
 				AF89BD702AFA502B00F48DA0 /* DetailGroundView.swift in Sources */,
@@ -300,6 +315,7 @@
 				AF134F5F2AF6965C0091A4CF /* Test2.swift in Sources */,
 				AFB3BD7F2AE1F1B400C5413E /* Structs.swift in Sources */,
 				AFB3BD6B2AE1DF3400C5413E /* ContentView.swift in Sources */,
+				AFFA64122AFBBFAA005A9BCC /* GetRoundData.swift in Sources */,
 				AF278B462AEE30700077B24E /* ScheduleView.swift in Sources */,
 				AFB3BD692AE1DF3400C5413E /* VIC_HockeyApp.swift in Sources */,
 				AF258CFE2AF8F401005D82E4 /* DetailSearchView.swift in Sources */,
