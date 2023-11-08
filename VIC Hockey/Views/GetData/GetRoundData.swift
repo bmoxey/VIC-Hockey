@@ -46,9 +46,14 @@ func GetRoundData(mycompID: String, myTeamID: String, myTeamName: String) -> ([R
                 myRound.homeGoals = 0
                 myRound.awayGoals = 0
             } else {
+                myRound.result = GetPart(fullString: GetScore(fullString: String(lines[i])), partNumber: 14)
                 (myRound.homeGoals, myRound.awayGoals) = GetScores(scores: myRound.score)
                 (myRound.homeTeam, myRound.awayTeam) = GetHomeTeam(result: myRound.result, homeGoals: myRound.homeGoals, awayGoals: myRound.awayGoals, myTeam: myTeamName, opponent: myRound.opponent, rounds: rounds, venue: myRound.venue)
-                myRound.result = GetResult(myTeam: myTeamName, homeTeam: myRound.homeTeam, awayTeam: myRound.awayTeam, homeGoals: myRound.homeGoals, awayGoals: myRound.awayGoals)
+//                myRound.result = GetResult(myTeam: myTeamName, homeTeam: myRound.homeTeam, awayTeam: myRound.awayTeam, homeGoals: myRound.homeGoals, awayGoals: myRound.awayGoals)
+                if lines[i].contains(" <div class=\"badge badge-danger\">FF</div>") {
+                    if myRound.result == "Win" { myRound.result = "+FF" } else { myRound.result = "-FF" } }
+                if lines[i].contains(" <div class=\"badge badge-warning\">FL</div>") {
+                    if myRound.result == "Win" { myRound.result = "+FL" } else { myRound.result = "-FL"} }
             }
         }
         if lines[i].contains("https://www.hockeyvictoria.org.au/game/") {

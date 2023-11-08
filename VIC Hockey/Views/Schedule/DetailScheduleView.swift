@@ -40,14 +40,15 @@ struct DetailScheduleView: View {
                         if round.homeTeam == myTeam {
                             Text(String(repeating: "🟢", count: round.homeGoals))
                                 .font(.footnote)
-                                
                                 .multilineTextAlignment(.trailing)
                                 .lineLimit(nil)
+                                .padding(.leading, -8)
                         } else {
                             Text(String(repeating: "🔴", count: round.homeGoals))
                                 .font(.footnote)
                                 .multilineTextAlignment(.trailing)
                                 .lineLimit(nil)
+                                .padding(.leading, -8)
                         }
                     }
                     .frame(minWidth: 0, maxWidth: .infinity)
@@ -62,11 +63,13 @@ struct DetailScheduleView: View {
                                 .font(.footnote)
                                 .multilineTextAlignment(.leading)
                                 .lineLimit(nil)
+                                .padding(.trailing, -8)
                         } else {
                             Text(String(repeating: "🟢", count: round.awayGoals))
                                 .font(.footnote)
                                 .multilineTextAlignment(.leading)
                                 .lineLimit(nil)
+                                .padding(.trailing, -8)
                         }
                         Spacer()
                     }

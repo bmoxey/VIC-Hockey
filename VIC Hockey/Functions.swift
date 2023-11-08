@@ -68,7 +68,8 @@ func GetPart(fullString: String, partNumber: Int) -> String {
 }
 
 func GetScore(fullString: String) -> String {
-    let newString = fullString.replacingOccurrences(of: " <div class=\"badge badge-danger\">FF</div>", with: "")
+    let newString = fullString
+        .replacingOccurrences(of: " <div class=\"badge badge-danger\">FF</div>", with: "")
         .replacingOccurrences(of: " <div class=\"badge badge-warning\">FL</div>", with: "")
     return newString
 }
@@ -325,8 +326,16 @@ func BackgroundColor(result: String) -> Color {
     switch result {
     case "Win":
         return Color.green
+    case "+FF":
+        return Color.teal
+    case "+FL":
+        return Color.teal
     case "Loss":
         return Color.red
+    case "-FF":
+        return Color.pink
+    case "-FL":
+        return Color.pink
     case "Draw":
         return Color.gray
     case "BYE":

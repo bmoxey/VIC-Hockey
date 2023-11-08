@@ -33,7 +33,14 @@ func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Playe
             }
         }
         if lines[i].contains("www.hockeyvictoria.org.au/teams/") {
+            if lines[i].contains("<span class=\"badge badge-danger\">FF</span>") || lines[i].contains("<span class=\"badge badge-warning\">FL</span>") {
+                let team = ShortTeamName(fullName: GetPart(fullString: String(lines[i]), partNumber: 13))
+                let msg = GetPart(fullString: String(lines[i]), partNumber: 17)
+                let msg2 = GetPart(fullString: String(lines[i]), partNumber: 19)
+                myRound.result = team + " " + msg + " " + msg2
+            }
             count += 1
+            
             if count == 1 {
                 myRound.homeTeam = ShortTeamName(fullName:GetPart(fullString: String(lines[i]), partNumber: 9))
                 myRound.awayTeam = ShortTeamName(fullName:GetPart(fullString: String(lines[i]), partNumber: 19))
@@ -88,6 +95,9 @@ func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Playe
             myRound.starts = GetStart(inputDate: myRound.dateTime)
             if myRound.starts == "" && myRound.result == "No data" { myRound.starts = "Results currently unavailable"}
             if myRound.starts == "" { myRound.played = "Completed" } else { myRound.played = "Upcoming" }
+            if myRound.starts == "" && myRound.result.count > 10 {
+                myRound.starts = myRound.result
+            }
         }
         if lines[i].contains(">Venue<") {
             myRound.venue = GetPart(fullString: String(lines[i+1]), partNumber: 0).trimmingCharacters(in: .whitespaces)

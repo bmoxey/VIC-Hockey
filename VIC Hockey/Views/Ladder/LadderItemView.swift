@@ -31,9 +31,19 @@ struct LadderItemView: View {
                             .foregroundColor(.gray)
                             .padding(.horizontal,-4)
                     }
+                    ForEach(0 ..< item.byes, id: \.self) { _ in
+                        Image(systemName: "hand.raised.square.fill")
+                            .foregroundColor(.cyan)
+                            .padding(.horizontal, -4)
+                    }
                     ForEach(0 ..< item.losses, id: \.self) { _ in
                         Image(systemName: "xmark.square.fill")
                             .foregroundColor(.red)
+                            .padding(.horizontal,-4)
+                    }
+                    ForEach(0 ..< item.forfeits, id: \.self) { _ in
+                        Image(systemName: "exclamationmark.square.fill")
+                            .foregroundColor(.pink)
                             .padding(.horizontal,-4)
                     }
                     

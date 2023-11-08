@@ -31,12 +31,14 @@ struct LadderView: View {
                                 Section(header: Text("Ladder")) {
                                     DetailLadderHeaderView()
                                     ForEach(ladder, id: \.id) { item in
-                                        VStack {
-                                            NavigationLink(destination: LadderItemView(item: item)) {
-                                                DetailLadderItemView(myTeam: currentTeam[0].teamName, item: item)
+                                        if !currentTeam.isEmpty {
+                                            VStack {
+                                                NavigationLink(destination: LadderItemView(item: item)) {
+                                                    DetailLadderItemView(myTeam: currentTeam[0].teamName, item: item)
+                                                }
                                             }
+                                            .listRowSeparatorTint( item.pos == 4 ? Color("ForegroundColor") : Color(UIColor.separator), edges: .all)
                                         }
-                                        .listRowSeparatorTint( item.pos == 4 ? Color("ForegroundColor") : Color(UIColor.separator), edges: .all)
                                     }
                                 }
                             }
