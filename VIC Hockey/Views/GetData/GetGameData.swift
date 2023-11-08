@@ -10,8 +10,8 @@ import Foundation
 func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Player], [Round], String) {
     var lines: [String] = []
     var myTeamName: String = ""
-    var myRound: Round = Round(id: UUID(), roundNo: "", fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "No Data", played: "", game: "")
-    var myGame: Round = Round(id: UUID(), roundNo: "", fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "No Data", played: "", game: "")
+    var myRound: Round = Round(id: UUID(), roundNo: "", fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "", played: "", game: "")
+    var myGame: Round = Round(id: UUID(), roundNo: "", fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "", played: "", game: "")
     var homePlayers: [Player] = []
     var awayPlayers: [Player] = []
     var otherGames: [Round] = []
@@ -55,11 +55,18 @@ func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Playe
                 myGame.awayTeam = ShortTeamName(fullName:GetPart(fullString: String(mybit[2]), partNumber: 4))
                 if myGame.starts == "" {
                     let score = GetPart(fullString: String(lines[i]), partNumber: 10)
-                    let numbers = score.components(separatedBy: CharacterSet(charactersIn: " vs ")).compactMap { Int($0.trimmingCharacters(in: .whitespaces))}
-                    myGame.homeGoals = numbers.first ?? 0
-                    myGame.awayGoals = numbers.last ?? 0
-                    myGame.result = GetResult(myTeam: myTeam, homeTeam: myGame.homeTeam, awayTeam: myGame.awayTeam, homeGoals: myGame.homeGoals, awayGoals: myGame.awayGoals)
-                    myGame.score = "\(myGame.homeGoals) - \(myGame.awayGoals)"
+                    if score == "/div" {
+                        myGame.homeGoals = 0
+                        myGame.awayGoals = 0
+                        myGame.result = "No data"
+                        myGame.score = ""
+                    } else {
+                        let numbers = score.components(separatedBy: CharacterSet(charactersIn: " vs ")).compactMap { Int($0.trimmingCharacters(in: .whitespaces))}
+                        myGame.homeGoals = numbers.first ?? 0
+                        myGame.awayGoals = numbers.last ?? 0
+                        myGame.result = GetResult(myTeam: myTeam, homeTeam: myGame.homeTeam, awayTeam: myGame.awayTeam, homeGoals: myGame.homeGoals, awayGoals: myGame.awayGoals)
+                        myGame.score = "\(myGame.homeGoals) - \(myGame.awayGoals)"
+                    }
                 }
                 if myGame.homeTeam == myTeam { myGame.opponent = myGame.awayTeam }
                 else {myGame.opponent = myGame.homeTeam}
@@ -67,6 +74,7 @@ func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Playe
         }
         if lines[i].contains("Results for this match are not currently available") {
             count += 1
+            myRound.result = "No data"
         }
         if lines[i].contains("Teams drew!") {
             let mybit1 = GetPart(fullString: String(lines[i]), partNumber: 7).split(separator: "-")
@@ -78,6 +86,7 @@ func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Playe
         if lines[i].contains(">Date &amp; time<") {
             myRound.dateTime = ChangeLastSpace(in: String(lines[i+1].trimmingCharacters(in: .whitespaces)))
             myRound.starts = GetStart(inputDate: myRound.dateTime)
+            if myRound.starts == "" && myRound.result == "No data" { myRound.starts = "Results currently unavailable"}
             if myRound.starts == "" { myRound.played = "Completed" } else { myRound.played = "Upcoming" }
         }
         if lines[i].contains(">Venue<") {
