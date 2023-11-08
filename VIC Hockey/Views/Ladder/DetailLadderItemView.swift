@@ -8,11 +8,36 @@
 import SwiftUI
 
 struct DetailLadderItemView: View {
+    let myTeam: String
+    let item: LadderItem
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            Text("\(item.pos)")
+                .frame(width: 20, alignment: .leading)
+                .font(.footnote)
+                .foregroundStyle(Color(item.teamName == myTeam ? "ForegroundColor" : "DefaultColor"))
+            Image(ShortClubName(fullName: item.teamName))
+                .resizable()
+                .frame(width: 45, height: 45)
+                .padding(.vertical, -4)
+            Text(item.teamName)
+                .multilineTextAlignment(.leading)
+                .lineLimit(nil)
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                .foregroundStyle(Color(item.teamName == myTeam ? "ForegroundColor" : "DefaultColor"))
+            Text("\(item.diff)")
+                .frame(width: 35, alignment: .trailing)
+                .foregroundStyle(Color(item.teamName == myTeam ? "ForegroundColor" : "DefaultColor"))
+            Text("\(item.points)")
+                .frame(width: 35, alignment: .trailing)
+                .foregroundStyle(Color(item.teamName == myTeam ? "ForegroundColor" : "DefaultColor"))
+            Text("\(item.winRatio)")
+                .frame(width: 35, alignment: .trailing)
+                .foregroundStyle(Color(item.teamName == myTeam ? "ForegroundColor" : "DefaultColor"))
+        }
     }
 }
 
 #Preview {
-    DetailLadderItemView()
+    DetailLadderItemView(myTeam: "MHSOB", item: LadderItem(id: UUID(), pos: 1, teamName: "MHSOBHC", played: 6, wins: 3, draws: 1, losses: 2, forfeits: 0, byes: 0, scoreFor: 33, scoreAgainst: 21, diff: 12, points: 10, winRatio: 65))
 }

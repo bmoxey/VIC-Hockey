@@ -32,11 +32,21 @@ struct DetailPlayerView: View {
                     .foregroundStyle(Color(.red))
             }
             Spacer()
-            Text(player.goals)
+            if player.us {
+                Text(String(repeating: "🟢", count: player.goals))
+                    .font(.footnote)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(nil)
+            } else {
+                Text(String(repeating: "🔴", count: player.goals))
+                    .font(.footnote)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(nil)
+            }
         }
     }
 }
 
 #Preview {
-    DetailPlayerView(player: Player(name: "Brett Moxey", goals: "12", greenCards: 1, yellowCards: 2, redCards: 0, goalie: 0, surname: "Moxey", captain: true))
+    DetailPlayerView(player: Player(name: "Brett Moxey", goals: 5, greenCards: 1, yellowCards: 2, redCards: 0, goalie: 0, surname: "Moxey", captain: true, us: true))
 }

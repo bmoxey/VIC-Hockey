@@ -25,7 +25,7 @@ struct DetailScheduleView: View {
                         Spacer()
                     }
                     HStack {
-                        Text("\(round.opponent) @ \(round.venue)")
+                        Text("\(round.opponent) @ \(round.field)")
                         Spacer()
                     }
                 }
@@ -52,7 +52,7 @@ struct DetailScheduleView: View {
                     }
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .padding(.leading, -8)
-                    Text("\(round.score) \(round.result)")
+                    Text(" \(round.score) \(round.result) ")
                         .foregroundStyle(Color.black)
                         .fontWeight(.bold)
                         .background(BackgroundColor(result: round.result))

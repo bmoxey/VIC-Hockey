@@ -11,11 +11,11 @@ struct LoadingView: View {
     var body: some View {
         VStack {
             Spacer()
-            Image(systemName: "hourglass")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 120, height: 240)
-                .foregroundStyle(Color(.gray))
+//            Image(systemName: "hourglass")
+//                .resizable()
+//                .scaledToFit()
+//                .frame(width: 120, height: 240)
+//                .foregroundStyle(Color(.gray))
             Text("Loading...")
                 .font(.largeTitle)
                 .foregroundStyle(Color(.gray))

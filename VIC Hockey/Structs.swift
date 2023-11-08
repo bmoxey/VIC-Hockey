@@ -12,8 +12,7 @@ import Combine
 class SharedData: ObservableObject {
     @Published var activeTabIndex: Int = 0
     @Published var lastSchedule: String = ""
-    @Published var updateSchedule: Bool = true
-    @Published var updateLadder: Bool = true
+    @Published var lastLadder: String = ""
 }
 
 struct DivisionStruct : Identifiable {
@@ -35,16 +34,38 @@ struct Team : Identifiable {
     var clubName: String
 }
 
+struct Ladder: Codable {
+    var ladder: [LadderItem]
+}
+
+struct LadderItem: Codable {
+    var id: UUID
+    var pos: Int
+    var teamName: String
+    var played: Int
+    var wins: Int
+    var draws: Int
+    var losses: Int
+    var forfeits: Int
+    var byes: Int
+    var scoreFor: Int
+    var scoreAgainst: Int
+    var diff: Int
+    var points: Int
+    var winRatio: Int
+}
+
 struct Player : Identifiable {
     var id = UUID()
     var name: String
-    var goals: String
+    var goals: Int
     var greenCards: Int
     var yellowCards: Int
     var redCards: Int
     var goalie: Int
     var surname: String
     var captain: Bool
+    var us: Bool
 }
 
 struct Rounds: Codable {
@@ -56,9 +77,12 @@ struct Round: Codable {
     var roundNo: String
     var fullRound: String
     var dateTime: String
+    var field: String
     var venue: String
+    var address: String
     var opponent: String
     var homeTeam: String
+    var awayTeam: String
     var homeGoals: Int
     var awayGoals: Int
     var score: String
@@ -66,23 +90,5 @@ struct Round: Codable {
     var result: String
     var played: String
     var game: String
-    
-//    init(id: UUID, roundNo: String, fullRound: String, dateTime: String, venue: String, opponent: String, homeTeam: String, homeGoals: Int, awayGoals: Int, score: String, starts: String, result: String, played: String, game: String) {
-//        self.id = UUID()
-//        self.roundNo = ""
-//        self.fullRound = ""
-//        self.dateTime = ""
-//        self.venue = ""
-//        self.opponent = ""
-//        self.homeTeam = ""
-//        self.homeGoals = 0
-//        self.awayGoals = 0
-//        self.score = ""
-//        self.starts = ""
-//        self.result = ""
-//        self.played = ""
-//        self.game = ""
-//    }
-    
     
 }

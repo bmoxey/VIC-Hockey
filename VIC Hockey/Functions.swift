@@ -250,20 +250,55 @@ func GetScores(scores: String) -> (Int, Int) {
     return (homeScore, awayScore)
 }
 
-func GetHomeTeam(result: String, homeGoals: Int, awayGoals: Int, myTeam: String, opponent: String, rounds: [Round], venue: String) -> String {
+func ChangeLastSpace(in input: String) -> String {
+    var modifiedString = input
+    if let lastSpaceIndex = modifiedString.lastIndex(of: " ") {
+        modifiedString.replaceSubrange(lastSpaceIndex...lastSpaceIndex, with: " @ ")
+    }
+    return modifiedString
+}
+
+func RemoveTrailingNumber(from input: String) -> String {
+    var modifiedString = input
+    for character in modifiedString.reversed() {
+        if character.isNumber {
+            modifiedString.removeLast()
+        } else {
+            break
+        }
+    }
+    return modifiedString
+}
+
+func GetResult(myTeam: String, homeTeam: String, awayTeam: String, homeGoals: Int, awayGoals: Int) -> String {
+    var result = ""
+    if homeGoals == awayGoals { result = "Draw" }
+    if homeTeam == myTeam && homeGoals > awayGoals {  result = "Win"}
+    if homeTeam == myTeam && homeGoals < awayGoals {  result = "Loss"}
+    if awayTeam == myTeam && homeGoals > awayGoals {  result = "Loss"}
+    if awayTeam == myTeam && homeGoals < awayGoals {  result = "Win"}
+    return result
+}
+
+func GetHomeTeam(result: String, homeGoals: Int, awayGoals: Int, myTeam: String, opponent: String, rounds: [Round], venue: String) -> (String, String) {
     var homeTeam = myTeam
+    var awayTeam = ""
     if result == "Win" {
         if homeGoals > awayGoals {
             homeTeam = myTeam
+            awayTeam = opponent
         } else {
             homeTeam = opponent
+            awayTeam = myTeam
         }
     }
     if result == "Loss" {
         if homeGoals > awayGoals {
             homeTeam = opponent
+            awayTeam = myTeam
         } else {
             homeTeam = myTeam
+            awayTeam = opponent
         }
     }
     if result == "Draw" {
@@ -273,14 +308,17 @@ func GetHomeTeam(result: String, homeGoals: Int, awayGoals: Int, myTeam: String,
         if let mostCommonVenue = venueFrequency.max(by: { $0.value < $1.value })?.key {
             if venue == mostCommonVenue {
                 homeTeam = myTeam
+                awayTeam = opponent
             } else {
                 homeTeam = opponent
+                awayTeam = myTeam
             }
         } else {
             homeTeam = opponent
+            awayTeam = myTeam
         }
     }
-    return homeTeam
+    return (homeTeam, awayTeam)
 }
 
 func BackgroundColor(result: String) -> Color {

@@ -128,5 +128,5 @@ struct LadderItemView: View {
 }
 
 #Preview {
-    LadderItemView(item: LadderItem(id: 1, teamName: "Greensborough", played: 18, wins: 12, draws: 1, losses: 5, forfeits: 0, byes: 0, scoreFor: 41, scoreAgainst: 12, diff: 21, points: 55, winRatio: 88))
+    LadderItemView(item: LadderItem(id: UUID(), pos:1, teamName: "Greensborough", played: 18, wins: 12, draws: 1, losses: 5, forfeits: 0, byes: 0, scoreFor: 41, scoreAgainst: 12, diff: 21, points: 55, winRatio: 88))
 }

@@ -11,11 +11,10 @@ struct DetailGameView: View {
     var myTeam: String
     var myRound: Round
     var body: some View {
-        VStack {
-            Section(header: Text("Game Details")) {
+        Section(header: Text("Game Details")) {
+            VStack {
                 Text(myRound.dateTime)
                     .frame(maxWidth: .infinity, alignment: .center)
-                Text(myRound.result)
                 if myRound.starts != "" {
                     Text(myRound.starts)
                         .fontWeight(.bold)
@@ -38,11 +37,11 @@ struct DetailGameView: View {
                             Text("\(myRound.homeGoals)")
                                 .font(.largeTitle)
                                 .frame(width: 140, height: 50)
-                                .background(ShortClubName(fullName: myRound.homeTeam) == myTeam ? BackgroundColor(result: myRound.result) : Color(.clear))
+                                .background(myRound.homeTeam == myTeam ? BackgroundColor(result: myRound.result) : Color(.clear))
                             Text("\(myRound.awayGoals)")
                                 .font(.largeTitle)
                                 .frame(width: 140, height: 50)
-                                .background(ShortClubName(fullName: myRound.awayTeam) == myTeam ? BackgroundColor(result: myRound.result) : Color(.clear))
+                                .background(myRound.awayTeam == myTeam ? BackgroundColor(result: myRound.result) : Color(.clear))
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                     }

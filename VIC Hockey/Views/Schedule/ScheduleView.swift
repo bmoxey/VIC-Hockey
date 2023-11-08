@@ -18,7 +18,7 @@ struct ScheduleView: View {
         if !currentTeam.isEmpty {
             NavigationStack {
                 VStack {
-                    if sharedData.lastSchedule != currentTeam[0].teamName && sharedData.activeTabIndex == 0 {
+                    if sharedData.lastSchedule != currentTeam[0].teamID && sharedData.activeTabIndex == 0 {
                         LoadingView()
                             .task { await loadData() }
                     } else {
@@ -33,10 +33,10 @@ struct ScheduleView: View {
                                             ForEach(filteredRounds, id: \.id) { item in
                                                 if !currentTeam.isEmpty {
                                                     if item.opponent == "BYE" {
-                                                        DetailScheduleView(myTeam: String(currentTeam[0].teamName), round: item)
+                                                        DetailScheduleView(myTeam: currentTeam[0].teamName, round: item)
                                                     } else {
-                                                        NavigationLink(destination: GameView(gameNumber: item.game, myTeam: currentTeam[0].teamName)) {
-                                                            DetailScheduleView(myTeam: String(currentTeam[0].teamName), round: item)
+                                                        NavigationLink(destination: GameView(gameNumber: item.game, myTeam: currentTeam[0].teamName, myTeamID: currentTeam[0].teamID)) {
+                                                            DetailScheduleView(myTeam: currentTeam[0].teamName, round: item)
                                                         }
                                                     }
                                                 }
@@ -86,6 +86,9 @@ struct ScheduleView: View {
         var lines: [String] = []
         (lines, errURL) = GetUrl(url: "https://www.hockeyvictoria.org.au/teams/" + currentTeam[0].compID + "/&t=" + currentTeam[0].teamID)
         for i in 0 ..< lines.count {
+            if lines[i].contains("There are no draws to show") {
+                errURL = "There are no draws to show"
+            }
             if lines[i].contains("col-md pb-3 pb-lg-0 text-center text-md-left") {
                 myRound.fullRound = GetPart(fullString: String(lines[i+1]), partNumber: 2)
                 myRound.roundNo = GetRound(fullString: myRound.fullRound)
@@ -95,11 +98,11 @@ struct ScheduleView: View {
                 else { myRound.played = "Upcoming" }
             }
             if lines[i].contains("col-md pb-3 pb-lg-0 text-center text-md-right text-lg-left") {
-                myRound.venue = GetPart(fullString: String(lines[i+2]), partNumber: 2)
+                myRound.field = GetPart(fullString: String(lines[i+2]), partNumber: 2)
             }
             if lines[i].contains("col-lg-3 pb-3 pb-lg-0 text-center") {
-                if myRound.venue == "/div" {
-                    myRound.venue = "BYE"
+                if myRound.field == "/div" {
+                    myRound.field = "BYE"
                     myRound.opponent = "BYE"
                     myRound.score = "BYE"
                     myRound.result = "BYE"
@@ -124,7 +127,7 @@ struct ScheduleView: View {
                 rounds.append(myRound)
             }
         }
-        sharedData.lastSchedule = currentTeam[0].teamName
+        sharedData.lastSchedule = currentTeam[0].teamID
     }
 }
 
