@@ -7,7 +7,7 @@
 
 import Foundation
 
-func GetRoundData(mycompID: String, myTeamID: String, myTeamName: String) -> ([Round], String) {
+func GetSchedData(mycompID: String, myTeamID: String, myTeamName: String) -> ([Round], String) {
     var myRound = Round(id: UUID(), roundNo: "", fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "No Data", played: "", game: "")
     var rounds = [Round]()
     var lines: [String] = []
