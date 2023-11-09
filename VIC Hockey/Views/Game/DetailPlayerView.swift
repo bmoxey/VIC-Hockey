@@ -19,34 +19,51 @@ struct DetailPlayerView: View {
                 Image(systemName: "star.circle")
                     .foregroundStyle(Color("ForegroundColor"))
             }
-            ForEach(0 ..< player.greenCards, id: \.self) {_ in
-                Image(systemName: "triangleshape.fill")
-                    .foregroundStyle(Color(.green))
+            if player.greenCards > 0 {
+                Text(String(repeating: "▲", count: player.greenCards))
+                    .font(.system(size:24))
+                    .foregroundStyle(Color.green)
+                    .padding(.vertical, 0)
+                    .padding(.horizontal, 0)
             }
-            ForEach(0 ..< player.yellowCards, id: \.self) {_ in
-                Image(systemName: "square.fill")
-                    .foregroundStyle(Color(.yellow))
+            if player.yellowCards > 0 {
+                Text(String(repeating: "■", count: player.yellowCards))
+                    .font(.system(size:24))
+                    .foregroundStyle(Color.yellow)
+                    .padding(.vertical, 0)
+                    .padding(.horizontal, 0)
             }
-            ForEach(0 ..< player.redCards, id: \.self) {_ in
-                Image(systemName: "circle.fill")
-                    .foregroundStyle(Color(.red))
+            if player.redCards > 0 {
+                Text(String(repeating: "●", count: player.redCards))
+                .font(.system(size:24))
+                .foregroundStyle(Color.red)
+                .padding(.vertical, 0)
+                .padding(.horizontal, 0)
             }
+//            ForEach(0 ..< player.greenCards, id: \.self) {_ in
+//                Image(systemName: "triangleshape.fill")
+//                    .foregroundStyle(Color(.green))
+//            }
+//            ForEach(0 ..< player.yellowCards, id: \.self) {_ in
+//                Image(systemName: "square.fill")
+//                    .foregroundStyle(Color(.yellow))
+//            }
+//            ForEach(0 ..< player.redCards, id: \.self) {_ in
+//                Image(systemName: "circle.fill")
+//                    .foregroundStyle(Color(.red))
+//            }
             Spacer()
-            if player.us {
-                Text(String(repeating: "🟢", count: player.goals))
-                    .font(.footnote)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(nil)
-            } else {
-                Text(String(repeating: "🔴", count: player.goals))
-                    .font(.footnote)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(nil)
+            if player.goals > 0 {
+                Text(String(repeating: "●", count: player.goals))
+                .font(.system(size:20))
+                .foregroundStyle(player.us ? Color.green : Color.red)
+                .padding(.vertical, 0)
+                .padding(.horizontal, 0)
             }
         }
     }
 }
 
 #Preview {
-    DetailPlayerView(player: Player(name: "Brett Moxey", goals: 5, greenCards: 1, yellowCards: 2, redCards: 0, goalie: 0, surname: "Moxey", captain: true, us: true))
+    DetailPlayerView(player: Player(name: "Brett Moxey", numberGames: 0, goals: 5, greenCards: 1, yellowCards: 2, redCards: 0, goalie: 0, surname: "Moxey", captain: true, us: true))
 }

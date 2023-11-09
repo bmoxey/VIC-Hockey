@@ -13,8 +13,7 @@ struct DetailScheduleView: View {
     var body: some View {
         VStack {
             Text("\(round.fullRound)")
-                .fontWeight(.bold)
-                .foregroundStyle(Color("AccentColor"))
+                .font(.footnote)
             HStack {
                 Image(ShortClubName(fullName: round.opponent))
                     .resizable()
@@ -37,19 +36,13 @@ struct DetailScheduleView: View {
                 HStack {
                     HStack {
                         Spacer()
-                        if round.homeTeam == myTeam {
-                            Text(String(repeating: "🟢", count: round.homeGoals))
-                                .font(.footnote)
-                                .multilineTextAlignment(.trailing)
-                                .lineLimit(nil)
-                                .padding(.leading, -8)
-                        } else {
-                            Text(String(repeating: "🔴", count: round.homeGoals))
-                                .font(.footnote)
-                                .multilineTextAlignment(.trailing)
-                                .lineLimit(nil)
-                                .padding(.leading, -8)
-                        }
+                        Text(String(repeating: "●", count: round.homeGoals))
+                            .foregroundStyle(round.homeTeam == myTeam ? Color.green : Color.red)
+                            .font(.system(size:20))
+                            .padding(.vertical, 0)
+                            .padding(.horizontal, 0)
+                            .multilineTextAlignment(.trailing)
+                            .lineLimit(nil)
                     }
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .padding(.leading, -8)
@@ -58,19 +51,13 @@ struct DetailScheduleView: View {
                         .fontWeight(.bold)
                         .background(BackgroundColor(result: round.result))
                     HStack {
-                        if round.homeTeam == myTeam {
-                            Text(String(repeating: "🔴", count: round.awayGoals))
-                                .font(.footnote)
-                                .multilineTextAlignment(.leading)
-                                .lineLimit(nil)
-                                .padding(.trailing, -8)
-                        } else {
-                            Text(String(repeating: "🟢", count: round.awayGoals))
-                                .font(.footnote)
-                                .multilineTextAlignment(.leading)
-                                .lineLimit(nil)
-                                .padding(.trailing, -8)
-                        }
+                        Text(String(repeating: "●", count: round.awayGoals))
+                            .foregroundStyle(round.awayTeam == myTeam ? Color.green : Color.red)
+                            .font(.system(size:20))
+                            .padding(.vertical, 0)
+                            .padding(.horizontal, 0)
+                            .multilineTextAlignment(.leading)
+                            .lineLimit(nil)
                         Spacer()
                     }
                     .padding(.trailing, -8)

@@ -70,7 +70,6 @@ struct GameView: View {
             ToolbarItem(placement: .principal) {
                 VStack {
                     Text(myRound.fullRound)
-                        .fontWeight(.bold)
                         .foregroundStyle(Color("ForegroundColor"))
                 }
             }
@@ -200,9 +199,9 @@ struct GameView: View {
                     var us = true
                     if myTeamName != myTeam { us = false }
                     if myRound.homeTeam == myTeamName {
-                        homePlayers.append(Player(name: myName, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, us: us))
+                        homePlayers.append(Player(name: myName, numberGames: 0, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, us: us))
                     } else {
-                        awayPlayers.append(Player(name: myName, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, us: us))
+                        awayPlayers.append(Player(name: myName, numberGames: 0, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, us: us))
                     }
                 }
             }

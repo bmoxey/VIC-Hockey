@@ -39,5 +39,5 @@ struct DetailLadderItemView: View {
 }
 
 #Preview {
-    DetailLadderItemView(myTeam: "MHSOB", item: LadderItem(id: UUID(), pos: 1, teamName: "MHSOBHC", played: 6, wins: 3, draws: 1, losses: 2, forfeits: 0, byes: 0, scoreFor: 33, scoreAgainst: 21, diff: 12, points: 10, winRatio: 65))
+    DetailLadderItemView(myTeam: "MHSOB", item: LadderItem(id: UUID(), pos: 1, teamName: "MHSOBHC", compID: "123123", teamID: "12312", played: 6, wins: 3, draws: 1, losses: 2, forfeits: 0, byes: 0, scoreFor: 33, scoreAgainst: 21, diff: 12, points: 10, winRatio: 65))
 }

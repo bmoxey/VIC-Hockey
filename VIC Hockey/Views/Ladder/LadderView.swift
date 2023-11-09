@@ -9,11 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct LadderView: View {
+    @Environment(\.presentationMode) var presentationMode
     @Environment(\.modelContext) var context
     @EnvironmentObject private var sharedData: SharedData
     @State private var errURL = ""
     @State private var rounds = [Round]()
     @State private var haveData = false
+    @State private var linkEnabled = false
     @Query(filter: #Predicate<Teams> {$0.isCurrent} ) var currentTeam: [Teams]
     @State private var ladder = [LadderItem]()
     var body: some View {
@@ -33,7 +35,7 @@ struct LadderView: View {
                                     ForEach(ladder, id: \.id) { item in
                                         if !currentTeam.isEmpty {
                                             VStack {
-                                                NavigationLink(destination: LadderItemView(item: item)) {
+                                                NavigationLink(destination: LadderItemView(item: item, myTeamID: currentTeam[0].teamID)) {
                                                     DetailLadderItemView(myTeam: currentTeam[0].teamName, item: item)
                                                 }
                                             }
@@ -58,7 +60,6 @@ struct LadderView: View {
                     ToolbarItem(placement: .principal) {
                         VStack {
                             Text(currentTeam[0].divName)
-                                .fontWeight(.bold)
                                 .foregroundStyle(Color("ForegroundColor"))
                         }
                     }
@@ -79,7 +80,7 @@ struct LadderView: View {
     }
     
     func loadData() async {
-        var myLadder = LadderItem(id: UUID(), pos: 0, teamName: "", played: 0, wins: 0, draws: 0, losses: 0, forfeits: 0, byes: 0, scoreFor: 0, scoreAgainst: 0, diff: 0, points: 0, winRatio: 0)
+        var myLadder = LadderItem(id: UUID(), pos: 0, teamName: "", compID: "", teamID: "", played: 0, wins: 0, draws: 0, losses: 0, forfeits: 0, byes: 0, scoreFor: 0, scoreAgainst: 0, diff: 0, points: 0, winRatio: 0)
         var pos = 0
         ladder = []
         var lines: [String] = []
@@ -90,6 +91,8 @@ struct LadderView: View {
             }
             if lines[i].contains("hockeyvictoria.org.au/teams/") {
                 pos += 1
+                myLadder.teamID = GetPart(fullString: String(lines[i]), partNumber: 5)
+                myLadder.compID = GetPart(fullString: String(lines[i]), partNumber: 3)
                 myLadder.teamName = ShortTeamName(fullName: GetPart(fullString: String(lines[i]), partNumber: 6))
                 let lineArray = lines[i+2].replacingOccurrences(of: ">", with: "<").split(separator: "<")
                 myLadder.played = Int(lineArray[2]) ?? 0

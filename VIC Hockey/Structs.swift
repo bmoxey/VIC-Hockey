@@ -10,6 +10,7 @@ import SwiftUI
 import Combine
 
 class SharedData: ObservableObject {
+    @Published var lastStats: String = ""
     @Published var activeTabIndex: Int = 0
     @Published var lastSchedule: String = ""
     @Published var lastLadder: String = ""
@@ -42,6 +43,8 @@ struct LadderItem: Codable {
     var id: UUID
     var pos: Int
     var teamName: String
+    var compID: String
+    var teamID: String
     var played: Int
     var wins: Int
     var draws: Int
@@ -55,9 +58,10 @@ struct LadderItem: Codable {
     var winRatio: Int
 }
 
-struct Player : Identifiable {
+struct Player: Identifiable {
     var id = UUID()
     var name: String
+    var numberGames: Int
     var goals: Int
     var greenCards: Int
     var yellowCards: Int

@@ -74,7 +74,6 @@ struct SelectTeamView: View {
             ToolbarItem(placement: .principal) {
                 Text("Select your team")
                     .foregroundStyle(Color("ForegroundColor"))
-                    .fontWeight(.bold)
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Image(myClub)

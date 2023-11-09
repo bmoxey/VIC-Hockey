@@ -56,7 +56,6 @@ struct ScheduleView: View {
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         Text(currentTeam[0].divName)
-                            .fontWeight(.bold)
                             .foregroundStyle(Color("ForegroundColor"))
                     }
                     ToolbarItem(placement: .topBarLeading) {
@@ -79,7 +78,7 @@ struct ScheduleView: View {
         }
     }
     func myloadData() async {
-        (rounds, errURL) = GetRoundData(mycompID: currentTeam[0].compID, myTeamID: currentTeam[0].teamID, myTeamName: currentTeam[0].teamName)
+        (rounds, errURL) = GetSchedData(mycompID: currentTeam[0].compID, myTeamID: currentTeam[0].teamID, myTeamName: currentTeam[0].teamName)
         sharedData.lastSchedule = currentTeam[0].teamID
     }
 }

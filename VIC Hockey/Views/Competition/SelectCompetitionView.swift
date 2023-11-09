@@ -45,7 +45,6 @@ struct SelectCompetitionView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     Text(searching ? "Searching competitions..." : "Select your competitions")
                         .foregroundStyle(Color("ForegroundColor"))
-                        .fontWeight(.bold)
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Image("fulllogo1")
@@ -115,7 +114,6 @@ struct SelectCompetitionView: View {
                                         myTeamID = GetPart(fullString: String(mybit[k]), partNumber: 3)
                                         myDivType = GetDivType(fullName: myDivName)
                                         teamsFound += 1
-                                        if myDivType == "Other" { print(myDivName) }
                                         let team = Teams(compName: myCompName, compID: myCompID, divName: myDivName, divID: myDivID, divType: myDivType, divLevel: myDivLevel, teamName: myTeamName, teamID: myTeamID, clubName: myClubName, isCurrent: false, isUsed: false)
                                         context.insert(team)
                                     }

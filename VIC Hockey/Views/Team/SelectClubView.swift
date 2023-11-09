@@ -39,7 +39,6 @@ struct SelectClubView: View {
                 ToolbarItem(placement: .principal) {
                     Text("Select your club")
                         .foregroundStyle(Color("ForegroundColor"))
-                        .fontWeight(.bold)
                 }
                 if !isNavigationLink {
                     ToolbarItem(placement: .topBarLeading) {

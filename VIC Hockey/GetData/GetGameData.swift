@@ -134,10 +134,11 @@ func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Playe
                 let myGoalie = Int(GetPart(fullString: String(lines[i+10]), partNumber: 3)) ?? 0
                 var us = true
                 if myTeamName != myTeam { us = false }
+                let games = 0
                 if myRound.homeTeam == myTeamName {
-                    homePlayers.append(Player(name: myName, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, us: us))
+                    homePlayers.append(Player(name: myName, numberGames: games, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, us: us))
                 } else {
-                    awayPlayers.append(Player(name: myName, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, us: us))
+                    awayPlayers.append(Player(name: myName, numberGames: games, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, us: us))
                 }
             }
         }

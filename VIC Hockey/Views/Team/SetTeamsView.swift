@@ -98,7 +98,6 @@ struct SetTeamsView: View {
                     VStack {
                         Text("Select team")
                             .foregroundStyle(Color("ForegroundColor"))
-                            .fontWeight(.bold)
                     }
                 }
                 ToolbarItem(placement: .topBarLeading) {

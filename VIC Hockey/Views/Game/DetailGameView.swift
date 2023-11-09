@@ -17,8 +17,8 @@ struct DetailGameView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                 if myRound.starts != "" {
                     Text(myRound.starts)
-                        .fontWeight(.bold)
                         .foregroundColor(.red)
+                        .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
                 HStack {

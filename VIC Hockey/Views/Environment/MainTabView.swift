@@ -37,11 +37,11 @@ struct MainTabView: View {
                     Text("Round")
                 }
                 .tag(2)
-            Test()
+            StatisticsView()
                 .onAppear {
                     sharedData.activeTabIndex = 3
                 }
-
+                .environmentObject(sharedData)
                 .tabItem {
                     Image(systemName: "chart.bar.xaxis")
                     Text("Stats")
