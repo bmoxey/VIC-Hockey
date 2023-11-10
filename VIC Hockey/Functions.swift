@@ -322,7 +322,7 @@ func GetHomeTeam(result: String, homeGoals: Int, awayGoals: Int, myTeam: String,
     return (homeTeam, awayTeam)
 }
 
-func BackgroundColor(result: String) -> Color {
+func BarBackground(result: String) -> Color {
     switch result {
     case "Win":
         return Color.green

@@ -70,7 +70,7 @@ struct GameView: View {
             ToolbarItem(placement: .principal) {
                 VStack {
                     Text(myRound.fullRound)
-                        .foregroundStyle(Color("ForegroundColor"))
+                        .foregroundStyle(Color("BarForeground"))
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
@@ -79,9 +79,9 @@ struct GameView: View {
                     .frame(width: 45, height: 45)
             }
         }
-        .toolbarBackground(Color("BackgroundColor"), for: .navigationBar)
+        .toolbarBackground(Color("BarBackground"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarBackground(Color("BackgroundColor"), for: .tabBar)
+        .toolbarBackground(Color("BarBackground"), for: .tabBar)
         .toolbarBackground(.visible, for: .tabBar)
     }
     

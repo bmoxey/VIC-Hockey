@@ -50,7 +50,7 @@ struct DetailScheduleView: View {
                     Text(" \(round.score) \(round.result) ")
                         .foregroundStyle(Color.black)
                         .fontWeight(.bold)
-                        .background(BackgroundColor(result: round.result))
+                        .background(BarBackground(result: round.result))
                     HStack {
                         Text(String(repeating: "●", count: round.awayGoals))
                             .foregroundStyle(round.awayTeam == myTeam ? Color.green : Color.red)

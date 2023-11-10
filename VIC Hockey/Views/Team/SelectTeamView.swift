@@ -73,11 +73,10 @@ struct SelectTeamView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .accentColor(Color("AccentColor"))
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Select your team")
-                    .foregroundStyle(Color("ForegroundColor"))
+                    .foregroundStyle(Color("BarForeground"))
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Image(myClub)
@@ -85,7 +84,7 @@ struct SelectTeamView: View {
                     .frame(width: 45, height: 45)
             }
         }
-        .toolbarBackground(Color("BackgroundColor"), for: .navigationBar)
+        .toolbarBackground(Color("BarBackground"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
     }
 }

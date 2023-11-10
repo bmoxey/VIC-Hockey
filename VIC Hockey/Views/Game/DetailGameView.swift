@@ -37,11 +37,11 @@ struct DetailGameView: View {
                             Text("\(myRound.homeGoals)")
                                 .font(.largeTitle)
                                 .frame(width: 140, height: 50)
-                                .background(myRound.homeTeam == myTeam ? BackgroundColor(result: myRound.result) : Color(.clear))
+                                .background(myRound.homeTeam == myTeam ? BarBackground(result: myRound.result) : Color(.clear))
                             Text("\(myRound.awayGoals)")
                                 .font(.largeTitle)
                                 .frame(width: 140, height: 50)
-                                .background(myRound.awayTeam == myTeam ? BackgroundColor(result: myRound.result) : Color(.clear))
+                                .background(myRound.awayTeam == myTeam ? BarBackground(result: myRound.result) : Color(.clear))
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                     }

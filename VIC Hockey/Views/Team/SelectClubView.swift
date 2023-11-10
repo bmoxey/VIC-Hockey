@@ -38,7 +38,7 @@ struct SelectClubView: View {
                 }
                 ToolbarItem(placement: .principal) {
                     Text("Select your club")
-                        .foregroundStyle(Color("ForegroundColor"))
+                        .foregroundStyle(Color("BarForeground"))
                 }
                 if !isNavigationLink {
                     ToolbarItem(placement: .topBarLeading) {
@@ -49,9 +49,9 @@ struct SelectClubView: View {
                                 Image(systemName: "chevron.backward")
                                     .font(Font.system(size: 17, weight: .semibold))
                                     .frame(width: 20, height: 20)
-                                    .foregroundStyle(Color("AccentColor"))
+                                    .foregroundStyle(Color.white)
                                 Text("Rebuild")
-                                    .foregroundStyle(Color("AccentColor"))
+                                    .foregroundStyle(Color.white)
                             }
                         }
                         .confirmationDialog("Are you sure?", isPresented: $showingConfirmation)
@@ -72,11 +72,9 @@ struct SelectClubView: View {
                     }
                 }
             }
-            .toolbarBackground(Color("BackgroundColor"), for: .navigationBar)
+            .toolbarBackground(Color("BarBackground"), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
-            
         }
-        .accentColor(Color("AccentColor"))
     }
 }
 

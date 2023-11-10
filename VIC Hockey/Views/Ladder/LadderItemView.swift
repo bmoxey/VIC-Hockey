@@ -123,7 +123,7 @@ struct LadderItemView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(item.teamName)
-                    .foregroundStyle(Color("ForegroundColor"))
+                    .foregroundStyle(Color("BarForeground"))
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Image(ShortClubName(fullName: item.teamName))
@@ -132,9 +132,9 @@ struct LadderItemView: View {
             }
         }
         .padding(.horizontal, -8)
-        .toolbarBackground(Color("BackgroundColor"), for: .navigationBar)
+        .toolbarBackground(Color("BarBackground"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarBackground(Color("BackgroundColor"), for: .tabBar)
+        .toolbarBackground(Color("BarBackground"), for: .tabBar)
         .toolbarBackground(.visible, for: .tabBar)
     }
         

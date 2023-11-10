@@ -50,7 +50,7 @@ struct DetailCompetitionView: View {
             Text("Search competitions")
                 .frame(width: 280, height: 50)
                 .background(Color(.systemBlue).gradient)
-                .foregroundStyle(Color("AccentColor"))
+                .foregroundStyle(Color.white)
                 .font(.system(size: 20, weight: .bold))
                 .cornerRadius(10.0)
         })

@@ -33,7 +33,7 @@ struct StatisticsView: View {
                             InvalidURLView(url: errURL)
                         } else {
                             List {
-                                Section(header: Text("Player Statistics")) {
+                                Section(header: Text("\(currentTeam[0].teamName) Stats")) {
                                     HStack {
                                         Button(action: {
                                             if sortMode == 1 {
@@ -118,11 +118,11 @@ struct StatisticsView: View {
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         Text(currentTeam[0].divName)
-                            .foregroundStyle(Color("ForegroundColor"))
+                            .foregroundStyle(Color("BarForeground"))
                     }
                     ToolbarItem(placement: .topBarLeading) {
                         Image(systemName: "chart.bar.xaxis")
-                            .foregroundStyle(Color("AccentColor"))
+                            .foregroundStyle(Color.white)
                             .font(.title3)
                     }
                     ToolbarItem(placement: .topBarTrailing) {
@@ -132,9 +132,9 @@ struct StatisticsView: View {
                     }
                 }
                 .padding(.horizontal, -8)
-                .toolbarBackground(Color("BackgroundColor"), for: .navigationBar)
+                .toolbarBackground(Color("BarBackground"), for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
-                .toolbarBackground(Color("BackgroundColor"), for: .tabBar)
+                .toolbarBackground(Color("BarBackground"), for: .tabBar)
                 .toolbarBackground(.visible, for: .tabBar)
             }
             .onAppear() {

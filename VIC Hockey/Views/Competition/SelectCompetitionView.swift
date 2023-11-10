@@ -44,7 +44,7 @@ struct SelectCompetitionView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Text(searching ? "Searching competitions..." : "Select your competitions")
-                        .foregroundStyle(Color("ForegroundColor"))
+                        .foregroundStyle(Color("BarForeground"))
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Image("fulllogo1")
@@ -52,7 +52,7 @@ struct SelectCompetitionView: View {
                         .frame(width: 93, height: 34)
                 }
             }
-            .toolbarBackground(Color("BackgroundColor"), for: .navigationBar)
+            .toolbarBackground(Color("BarBackground"), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
         }
     }

@@ -102,26 +102,24 @@ struct SetTeamsView: View {
                     }
                 }
             }
-
             .navigationBarTitleDisplayMode(.inline)
-            
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     VStack {
                         Text("Select team")
-                            .foregroundStyle(Color("ForegroundColor"))
+                            .foregroundStyle(Color("BarForeground"))
                     }
                 }
                 ToolbarItem(placement: .topBarLeading) {
                     HStack {
                         Image(systemName: "person.text.rectangle.fill")
-                            .foregroundStyle(Color("AccentColor"))
+                            .foregroundStyle(Color.white)
                             .font(.title3)
                         Button(action: {
                             showingConfirmation = true
                         }, label: {
                                 Text("Rebuild")
-                                    .foregroundStyle(Color("AccentColor"))
+                                .foregroundStyle(Color.white)
                         })
                         .confirmationDialog("Are you sure?", isPresented: $showingConfirmation)
                         {
@@ -150,9 +148,9 @@ struct SetTeamsView: View {
                     NavigationLink(destination: SelectClubView(isNavigationLink: true)) {
                         HStack {
                             Text("Add")
-                                .foregroundStyle(Color("AccentColor"))
+                                .foregroundStyle(Color.white)
                             Image(systemName: "chevron.right")
-                                .foregroundStyle(Color("AccentColor"))
+                                .foregroundStyle(Color.white)
                                 .font(Font.system(size: 17, weight: .semibold))
                                 .frame(width: 20, height: 20)
                         }
@@ -160,9 +158,9 @@ struct SetTeamsView: View {
                 }
             }
             .padding(.horizontal, -8)
-            .toolbarBackground(Color("BackgroundColor"), for: .navigationBar)
+            .toolbarBackground(Color("BarBackground"), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(Color("BackgroundColor"), for: .tabBar)
+            .toolbarBackground(Color("BarBackground"), for: .tabBar)
             .toolbarBackground(.visible, for: .tabBar)
             
         }

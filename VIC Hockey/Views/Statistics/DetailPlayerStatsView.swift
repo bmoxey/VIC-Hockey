@@ -12,9 +12,10 @@ struct DetailPlayerStatsView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("\(playerStat.roundNo) - \(playerStat.teamName)")
-                Text(playerStat.dateTime)
+                Text("\(playerStat.roundNo) - \(playerStat.dateTime)")
                     .font(.footnote)
+                    .foregroundStyle(Color(.gray))
+                Text(playerStat.teamName)
             }
             if playerStat.goalie == 1 {
                 Text(" (GK)")

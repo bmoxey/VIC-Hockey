@@ -57,11 +57,11 @@ struct ScheduleView: View {
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         Text(currentTeam[0].divName)
-                            .foregroundStyle(Color("ForegroundColor"))
+                            .foregroundStyle(Color("BarForeground"))
                     }
                     ToolbarItem(placement: .topBarLeading) {
                         Image(systemName: "calendar")
-                            .foregroundStyle(Color("AccentColor"))
+                            .foregroundStyle(Color.white)
                             .font(.title3)
                     }
                     ToolbarItem(placement: .topBarTrailing) {
@@ -71,9 +71,9 @@ struct ScheduleView: View {
                     }
                 }
                 .padding(.horizontal, -8)
-                .toolbarBackground(Color("BackgroundColor"), for: .navigationBar)
+                .toolbarBackground(Color("BarBackground"), for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
-                .toolbarBackground(Color("BackgroundColor"), for: .tabBar)
+                .toolbarBackground(Color("BarBackground"), for: .tabBar)
                 .toolbarBackground(.visible, for: .tabBar)
             }
             .onAppear() {
@@ -83,11 +83,11 @@ struct ScheduleView: View {
             }
         }
     }
+    
     func myloadData() async {
         (rounds, errURL) = GetSchedData(mycompID: currentTeam[0].compID, myTeamID: currentTeam[0].teamID, myTeamName: currentTeam[0].teamName)
         sharedData.refreshSchedule = false
         haveData = true
-        
     }
 }
 

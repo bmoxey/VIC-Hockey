@@ -39,7 +39,7 @@ struct LadderView: View {
                                                     DetailLadderItemView(myTeam: currentTeam[0].teamName, item: item)
                                                 }
                                             }
-                                            .listRowSeparatorTint( item.pos == 4 ? Color("ForegroundColor") : Color(UIColor.separator), edges: .all)
+                                            .listRowSeparatorTint( item.pos == 4 ? Color("AccentColor") : Color(UIColor.separator), edges: .all)
                                         }
                                     }
                                 }
@@ -54,13 +54,13 @@ struct LadderView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Image(systemName: "list.number")
-                            .foregroundStyle(Color("AccentColor"))
+                            .foregroundStyle(Color.white)
                             .font(.title3)
                     }
                     ToolbarItem(placement: .principal) {
                         VStack {
                             Text(currentTeam[0].divName)
-                                .foregroundStyle(Color("ForegroundColor"))
+                                .foregroundStyle(Color("BarForeground"))
                         }
                     }
                     ToolbarItem(placement: .topBarTrailing) {
@@ -70,9 +70,9 @@ struct LadderView: View {
                     }
                 }
                 .padding(.horizontal, -8)
-                .toolbarBackground(Color("BackgroundColor"), for: .navigationBar)
+                .toolbarBackground(Color("BarBackground"), for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
-                .toolbarBackground(Color("BackgroundColor"), for: .tabBar)
+                .toolbarBackground(Color("BarBackground"), for: .tabBar)
                 .toolbarBackground(.visible, for: .tabBar)
             }
             .onAppear() {
