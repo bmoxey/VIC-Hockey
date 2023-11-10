@@ -16,9 +16,8 @@ func GetStatsData(myCompID: String, myTeamID: String) -> ( [Player], String) {
         if lines[i].contains("There are no records to show.") {
             errURL = "There are no records to show."
         }
-        
-        
         if lines[i].contains("https://www.hockeyvictoria.org.au/statistics/") {
+            let statsLink = String(lines[i].split(separator: "\"")[3])
             var myName = GetPart(fullString: String(lines[i]), partNumber: 7).capitalized.trimmingCharacters(in: CharacterSet.letters.inverted)
             var myCap = false
             if myName.contains(" (Captain)") {
@@ -41,7 +40,7 @@ func GetStatsData(myCompID: String, myTeamID: String) -> ( [Player], String) {
             let myYellow = Int(GetPart(fullString: String(lines[i+7]), partNumber: 3)) ?? 0
             let myRed = Int(GetPart(fullString: String(lines[i+9]), partNumber: 3)) ?? 0
             let myGoalie = Int(GetPart(fullString: String(lines[i+11]), partNumber: 3)) ?? 0
-            players.append(Player(name: myName, numberGames: myGames, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, us: true))
+            players.append(Player(name: myName, numberGames: myGames, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, us: true, statsLink: statsLink))
         }
     }
     

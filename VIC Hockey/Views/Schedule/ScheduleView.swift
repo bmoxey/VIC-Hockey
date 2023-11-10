@@ -13,12 +13,13 @@ struct ScheduleView: View {
     @EnvironmentObject private var sharedData: SharedData
     @State private var errURL = ""
     @State private var rounds = [Round]()
+    @State private var haveData = false
     @Query(filter: #Predicate<Teams> {$0.isCurrent} ) var currentTeam: [Teams]
     var body: some View {
         if !currentTeam.isEmpty {
             NavigationStack {
                 VStack {
-                    if sharedData.lastSchedule != currentTeam[0].teamID && sharedData.activeTabIndex == 0 {
+                    if !haveData {
                         LoadingView()
                             .task { await myloadData() }
                     } else {
@@ -47,7 +48,7 @@ struct ScheduleView: View {
                                 
                             }
                             .refreshable {
-                                sharedData.lastSchedule = ""
+                                sharedData.refreshSchedule = true
                             }
                         }
                     }
@@ -75,11 +76,18 @@ struct ScheduleView: View {
                 .toolbarBackground(Color("BackgroundColor"), for: .tabBar)
                 .toolbarBackground(.visible, for: .tabBar)
             }
+            .onAppear() {
+                if sharedData.refreshSchedule {
+                    haveData = false
+                }
+            }
         }
     }
     func myloadData() async {
         (rounds, errURL) = GetSchedData(mycompID: currentTeam[0].compID, myTeamID: currentTeam[0].teamID, myTeamName: currentTeam[0].teamName)
-        sharedData.lastSchedule = currentTeam[0].teamID
+        sharedData.refreshSchedule = false
+        haveData = true
+        
     }
 }
 

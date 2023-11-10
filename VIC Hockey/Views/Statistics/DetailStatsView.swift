@@ -51,5 +51,5 @@ struct DetailStatsView: View {
 }
 
 #Preview {
-    DetailStatsView(player: Player(name: "Brett Moxey", numberGames: 2, goals: 5, greenCards: 1, yellowCards: 2, redCards: 0, goalie: 0, surname: "Moxey", captain: true, us: true))
+    DetailStatsView(player: Player(name: "Brett Moxey", numberGames: 2, goals: 5, greenCards: 1, yellowCards: 2, redCards: 0, goalie: 0, surname: "Moxey", captain: true, us: true, statsLink: ""))
 }

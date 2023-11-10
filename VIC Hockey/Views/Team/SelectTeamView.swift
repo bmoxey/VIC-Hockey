@@ -29,7 +29,7 @@ struct SelectTeamView: View {
         }
     }
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 ForEach(Dictionary(grouping: myTeams, by: { $0.divType }).sorted(by: { $0.key < $1.key }), id: \.key) { (key, divType) in
                     Section(header: Text(key).font(.largeTitle)) {
@@ -59,6 +59,10 @@ struct SelectTeamView: View {
                                     team.isCurrent = true
                                     team.isUsed = true
                                     if count > 0 {
+                                        sharedData.refreshSchedule = true
+                                        sharedData.refreshLadder = true
+                                        sharedData.refreshRound = true
+                                        sharedData.refreshStats = true
                                         sharedData.activeTabIndex = 0
                                     }
                                 }

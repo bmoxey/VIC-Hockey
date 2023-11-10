@@ -15,6 +15,7 @@ struct StatisticsView: View {
     @State private var errURL = ""
     @State private var players = [Player]()
     @State private var sortedByName = true
+    @State private var haveData = false
     @State private var sortedByNameValue: KeyPath<Player, String> = \Player.surname
     @State private var sortedByValue: KeyPath<Player, Int>? = nil
     @State private var sortAscending = true
@@ -24,7 +25,7 @@ struct StatisticsView: View {
         if !currentTeam.isEmpty {
             NavigationStack {
                 VStack {
-                    if sharedData.lastStats != currentTeam[0].teamID && sharedData.activeTabIndex == 3 {
+                    if !haveData {
                         LoadingView()
                             .task { await myloadData() }
                     } else {
@@ -48,7 +49,7 @@ struct StatisticsView: View {
                                             Text(sortMode == 1 ? sortAscending ? "First▼" : "First▲" : "First")
                                                 .font(.footnote)
                                                 .padding(.all, 0)
-                                                .foregroundColor(colorScheme == .dark ? Color.orange : Color.blue)
+                                                .foregroundStyle(Color(.gray))
                                         }
                                         .buttonStyle(BorderlessButtonStyle())
                                         Button(action: {
@@ -65,7 +66,7 @@ struct StatisticsView: View {
                                             Text(sortMode == 2 ? sortAscending ? "Surname▼" : "Surname▲" : "Surname")
                                                 .font(.footnote)
                                                 .padding(.all, 0)
-                                                .foregroundColor(colorScheme == .dark ? Color.orange : Color.blue)
+                                                .foregroundStyle(Color(.gray))
                                         }
                                         .buttonStyle(BorderlessButtonStyle())
                                         Spacer()
@@ -81,7 +82,7 @@ struct StatisticsView: View {
                                         }) {
                                             Text(sortMode == 3 ? sortAscending ? "Goals▲" :"Goals▼" : "Goals" )
                                                 .font(.footnote)
-                                                .foregroundColor(colorScheme == .dark ? Color.orange : Color.blue)
+                                                .foregroundStyle(Color(.gray))
                                         }
                                         .buttonStyle(BorderlessButtonStyle())
                                         Button(action: {
@@ -96,17 +97,19 @@ struct StatisticsView: View {
                                         }) {
                                             Text(sortMode == 4 ? sortAscending ? "Games▲" :"Games▼" : "Games" )
                                                 .font(.footnote)
-                                                .foregroundColor(colorScheme == .dark ? Color.orange : Color.blue)
+                                                .foregroundStyle(Color(.gray))
                                         }
                                         .buttonStyle(BorderlessButtonStyle())
                                     }
                                     ForEach(players.sorted(by: sortDescriptor)) { player in
-                                        NavigationLink(destination: PlayerStatsView()) {
+                                        NavigationLink(destination: PlayerStatsView(myTeam: currentTeam[0].teamName, myTeamID: currentTeam[0].teamID, player: player)) {
                                             DetailStatsView(player: player)
                                         }
-                                        
                                     }
                                 }
+                            }
+                            .refreshable {
+                                sharedData.refreshStats = true
                             }
                         }
                     }
@@ -133,6 +136,11 @@ struct StatisticsView: View {
                 .toolbarBackground(.visible, for: .navigationBar)
                 .toolbarBackground(Color("BackgroundColor"), for: .tabBar)
                 .toolbarBackground(.visible, for: .tabBar)
+            }
+            .onAppear() {
+                if sharedData.refreshStats {
+                    haveData = false
+                }
             }
         }
     }
@@ -163,7 +171,8 @@ struct StatisticsView: View {
     }
     func myloadData() async {
         (players, errURL) = GetStatsData(myCompID: currentTeam[0].compID, myTeamID: currentTeam[0].teamID)
-        sharedData.lastStats = currentTeam[0].teamID
+        sharedData.refreshStats = false
+        haveData = true
     }
 }
 

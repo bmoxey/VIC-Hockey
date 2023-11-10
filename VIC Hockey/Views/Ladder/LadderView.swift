@@ -22,7 +22,7 @@ struct LadderView: View {
         if !currentTeam.isEmpty {
             NavigationStack {
                 VStack {
-                    if sharedData.lastLadder != currentTeam[0].teamID && sharedData.activeTabIndex == 1 {
+                    if !haveData {
                         LoadingView()
                             .task { await loadData() }
                     } else {
@@ -45,7 +45,7 @@ struct LadderView: View {
                                 }
                             }
                             .refreshable {
-                                sharedData.lastLadder = ""
+                                sharedData.refreshLadder = true
                             }
                         }
                     }
@@ -75,7 +75,11 @@ struct LadderView: View {
                 .toolbarBackground(Color("BackgroundColor"), for: .tabBar)
                 .toolbarBackground(.visible, for: .tabBar)
             }
-            
+            .onAppear() {
+                if sharedData.refreshLadder {
+                    haveData = false
+                }
+            }
         }
     }
     
@@ -111,7 +115,8 @@ struct LadderView: View {
                 ladder.append(myLadder)
             }
         }
-        sharedData.lastLadder = currentTeam[0].teamID
+        sharedData.refreshLadder = false
+        haveData = true
     }
 }
 

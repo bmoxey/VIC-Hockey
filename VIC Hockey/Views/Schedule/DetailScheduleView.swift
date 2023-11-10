@@ -14,6 +14,7 @@ struct DetailScheduleView: View {
         VStack {
             Text("\(round.fullRound)")
                 .font(.footnote)
+                .foregroundStyle(Color(.gray))
             HStack {
                 Image(ShortClubName(fullName: round.opponent))
                     .resizable()
@@ -31,7 +32,7 @@ struct DetailScheduleView: View {
             }
             if round.starts != "" {
                 Text("\(round.starts)")
-                    .foregroundColor(Color.red)
+                    .foregroundStyle(Color(.red))
             } else {
                 HStack {
                     HStack {

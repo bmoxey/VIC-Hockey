@@ -29,7 +29,7 @@ struct DetailGroundView: View {
                 Button(" Open in Google Maps") {
                     openGoogleMaps(with: "\(myRound.venue), \(myRound.address) , Victoria, Australia", label: "\(myRound.venue)")
                 }
-                .foregroundColor(Color(.blue))
+                .foregroundColor(Color(.gray))
                 .frame(maxWidth: .infinity, alignment: .center)
             }
         }

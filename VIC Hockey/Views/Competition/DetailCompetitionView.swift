@@ -17,11 +17,11 @@ struct DetailCompetitionView: View {
             HStack {
                 if self.selectedComps.contains(comp) {
                     Image(systemName: "checkmark")
-                        .foregroundColor(.green)
+                        .foregroundStyle(Color(.green))
                         .frame(width: 20)
                 } else {
                     Image(systemName: "hand.raised")
-                        .foregroundColor(.red)
+                        .foregroundStyle(Color(.red))
                         .frame(width: 20)
                 }
                 Text(comp)
@@ -40,7 +40,7 @@ struct DetailCompetitionView: View {
                 Text("\(number)")
             }
         }
-        .foregroundColor(Color(.systemBlue))
+        .foregroundStyle(Color(.systemBlue))
         .pickerStyle(.navigationLink)
         .padding(.horizontal, 32)
         .padding(.bottom)

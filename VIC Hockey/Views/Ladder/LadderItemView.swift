@@ -113,8 +113,10 @@ struct LadderItemView: View {
                 }
             }
         }
-        .task {
-            myData()
+        .onAppear {
+            if sharedData.refreshLadder {
+                self.presentationMode.wrappedValue.dismiss()
+            }
         }
         .navigationBarTitleDisplayMode(.inline)
         
@@ -135,13 +137,7 @@ struct LadderItemView: View {
         .toolbarBackground(Color("BackgroundColor"), for: .tabBar)
         .toolbarBackground(.visible, for: .tabBar)
     }
-    
-    func myData() {
-        if sharedData.lastLadder != myTeamID {
-            self.presentationMode.wrappedValue.dismiss()
-        }
-    }
-    
+        
     func myloadData() async {
         (rounds, errURL) = GetSchedData(mycompID: item.compID, myTeamID: item.teamID, myTeamName: item.teamName)
         haveData = true

@@ -40,18 +40,6 @@ struct DetailPlayerView: View {
                 .padding(.vertical, 0)
                 .padding(.horizontal, 0)
             }
-//            ForEach(0 ..< player.greenCards, id: \.self) {_ in
-//                Image(systemName: "triangleshape.fill")
-//                    .foregroundStyle(Color(.green))
-//            }
-//            ForEach(0 ..< player.yellowCards, id: \.self) {_ in
-//                Image(systemName: "square.fill")
-//                    .foregroundStyle(Color(.yellow))
-//            }
-//            ForEach(0 ..< player.redCards, id: \.self) {_ in
-//                Image(systemName: "circle.fill")
-//                    .foregroundStyle(Color(.red))
-//            }
             Spacer()
             if player.goals > 0 {
                 Text(String(repeating: "●", count: player.goals))
@@ -65,5 +53,5 @@ struct DetailPlayerView: View {
 }
 
 #Preview {
-    DetailPlayerView(player: Player(name: "Brett Moxey", numberGames: 0, goals: 5, greenCards: 1, yellowCards: 2, redCards: 0, goalie: 0, surname: "Moxey", captain: true, us: true))
+    DetailPlayerView(player: Player(name: "Brett Moxey", numberGames: 0, goals: 5, greenCards: 1, yellowCards: 2, redCards: 0, goalie: 0, surname: "Moxey", captain: true, us: true, statsLink: ""))
 }

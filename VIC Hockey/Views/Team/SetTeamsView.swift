@@ -24,6 +24,9 @@ struct SetTeamsView: View {
                 Section(header: Text("Current")) {
                     ForEach(currentTeam, id: \.self) { team in
                         VStack {
+                            Text(team.compName)
+                                .font(.footnote)
+                                .foregroundStyle(Color(.gray))
                             HStack {
                                 Spacer()
                                 Image(team.clubName)
@@ -52,6 +55,9 @@ struct SetTeamsView: View {
                             if !currentTeam.isEmpty {
                                 if team.teamID != currentTeam[0].teamID {
                                     VStack {
+                                        Text(team.compName)
+                                            .font(.footnote)
+                                            .foregroundStyle(Color(.gray))
                                         HStack {
                                             Spacer()
                                             Image(team.clubName)
@@ -77,7 +83,13 @@ struct SetTeamsView: View {
                                         }
                                         if let index = usedTeams.firstIndex(of: team) {
                                             usedTeams[index].isCurrent = true
+                                            sharedData.refreshSchedule = true
+                                            sharedData.refreshLadder = true
+                                            sharedData.refreshRound = true
+                                            sharedData.refreshStats = true
+                                            sharedData.activeTabIndex = 0
                                         }
+                                        
                                     }
                                 }
                             }

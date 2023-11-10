@@ -10,10 +10,11 @@ import SwiftUI
 import Combine
 
 class SharedData: ObservableObject {
-    @Published var lastStats: String = ""
     @Published var activeTabIndex: Int = 0
-    @Published var lastSchedule: String = ""
-    @Published var lastLadder: String = ""
+    @Published var refreshSchedule: Bool = false
+    @Published var refreshLadder: Bool = false
+    @Published var refreshRound: Bool = false
+    @Published var refreshStats: Bool = false
 }
 
 struct DivisionStruct : Identifiable {
@@ -70,6 +71,22 @@ struct Player: Identifiable {
     var surname: String
     var captain: Bool
     var us: Bool
+    var statsLink: String
+}
+
+struct PlayerStat: Identifiable {
+    var id = UUID()
+    var roundNo: String
+    var dateTime: String
+    var teamID: String
+    var teamName: String
+    var clubName: String
+    var divName: String
+    var goals: Int
+    var greenCards: Int
+    var yellowCards: Int
+    var redCards: Int
+    var goalie: Int
 }
 
 struct Rounds: Codable {

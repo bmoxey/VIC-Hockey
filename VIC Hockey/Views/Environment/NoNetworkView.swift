@@ -20,7 +20,7 @@ struct NoNetworkView: View {
                 .font(.largeTitle)
             Spacer()
             Image(systemName: "wifi.slash")
-                .foregroundColor(.red)
+                .foregroundStyle(Color(.red))
                 .font(.system(size: 128, weight: .bold))
             Spacer()
             Spacer()
