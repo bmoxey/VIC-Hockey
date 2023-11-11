@@ -23,30 +23,7 @@ struct SetTeamsView: View {
             List {
                 Section(header: Text("Current")) {
                     ForEach(currentTeam, id: \.self) { team in
-                        VStack {
-                            Text(team.compName)
-                                .font(.footnote)
-                                .foregroundStyle(Color(.gray))
-                            HStack {
-                                Spacer()
-                                Image(team.clubName)
-                                    .resizable()
-                                    .frame(width: 45, height: 45)
-                                Text(team.divType.uppercased())
-                                    .font(.largeTitle)
-                                Spacer()
-                            }
-                            .padding(.bottom, -8)
-                            .padding(.top, 8)
-                            Text(team.clubName)
-                                .font(.title)
-                            Text(team.divName)
-                            if team.teamName != team.clubName {
-                                Text("competing as \(team.teamName)")
-                                    .font(.footnote)
-                            }
-                        }
-                        .padding(.bottom, 8)
+                        DetailTeamView(team: team)
                     }
                 }
                 if usedTeams.count > 1 {
@@ -54,29 +31,7 @@ struct SetTeamsView: View {
                         ForEach(usedTeams, id: \.self) { team in
                             if !currentTeam.isEmpty {
                                 if team.teamID != currentTeam[0].teamID {
-                                    VStack {
-                                        Text(team.compName)
-                                            .font(.footnote)
-                                            .foregroundStyle(Color(.gray))
-                                        HStack {
-                                            Spacer()
-                                            Image(team.clubName)
-                                                .resizable()
-                                                .frame(width: 45, height: 45)
-                                            Text(team.divType.uppercased())
-                                                .font(.largeTitle)
-                                            Spacer()
-                                        }
-                                        .padding(.bottom, -8)
-                                        .padding(.top, 8)
-                                        Text(team.clubName)
-                                            .font(.title)
-                                        Text(team.divName)
-                                        if team.teamName != team.clubName {
-                                            Text("competing as \(team.teamName)")
-                                                .font(.footnote)
-                                        }
-                                    }
+                                    DetailTeamView(team: team)
                                     .onTapGesture  { indexSet in
                                         for index in 0 ..< teams.count {
                                             teams[index].isCurrent = false

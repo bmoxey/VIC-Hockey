@@ -18,7 +18,7 @@ struct DetailScheduleView: View {
             HStack {
                 Image(ShortClubName(fullName: round.opponent))
                     .resizable()
-                    .frame(width: 45, height: 45)
+                    .frame(width: 60, height: 60)
                 VStack {
                     HStack {
                         Text("\(round.dateTime)")

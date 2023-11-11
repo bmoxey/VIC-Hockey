@@ -43,9 +43,17 @@ struct ScheduleView: View {
                                                 }
                                             }
                                         }
+                                        .onAppear {
+                                            if played == "Completed" {
+                                                if let lastCompletedRound = filteredRounds.last?.fullRound {
+                                                    sharedData.currentRound = lastCompletedRound
+                                                } else {
+                                                    sharedData.currentRound = "Round 1"
+                                                }
+                                            }
+                                        }
                                     }
                                 }
-                                
                             }
                             .refreshable {
                                 sharedData.refreshSchedule = true

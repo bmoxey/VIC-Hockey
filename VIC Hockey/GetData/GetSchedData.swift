@@ -22,7 +22,9 @@ func GetSchedData(mycompID: String, myTeamID: String, myTeamName: String) -> ([R
             myRound.roundNo = GetRound(fullString: myRound.fullRound)
             myRound.dateTime = String(lines[i+2].trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "<br />", with: " @ "))
             myRound.starts = GetStart(inputDate: myRound.dateTime)
-            if myRound.starts == "" { myRound.played = "Completed" }
+            if myRound.starts == "" {
+                myRound.played = "Completed"
+            }
             else { myRound.played = "Upcoming" }
         }
         if lines[i].contains("https://www.hockeyvictoria.org.au/venues") {
@@ -47,9 +49,8 @@ func GetSchedData(mycompID: String, myTeamID: String, myTeamName: String) -> ([R
                 myRound.awayGoals = 0
             } else {
                 myRound.result = GetPart(fullString: GetScore(fullString: String(lines[i])), partNumber: 14)
-                (myRound.homeGoals, myRound.awayGoals) = GetScores(scores: myRound.score)
+                (myRound.homeGoals, myRound.awayGoals) = GetScores(scores: myRound.score, seperator: "-")
                 (myRound.homeTeam, myRound.awayTeam) = GetHomeTeam(result: myRound.result, homeGoals: myRound.homeGoals, awayGoals: myRound.awayGoals, myTeam: myTeamName, opponent: myRound.opponent, rounds: rounds, venue: myRound.venue)
-//                myRound.result = GetResult(myTeam: myTeamName, homeTeam: myRound.homeTeam, awayTeam: myRound.awayTeam, homeGoals: myRound.homeGoals, awayGoals: myRound.awayGoals)
                 if lines[i].contains(" <div class=\"badge badge-danger\">FF</div>") {
                     if myRound.result == "Win" { myRound.result = "+FF" } else { myRound.result = "-FF" } }
                 if lines[i].contains(" <div class=\"badge badge-warning\">FL</div>") {

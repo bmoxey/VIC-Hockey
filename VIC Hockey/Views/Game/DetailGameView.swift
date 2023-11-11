@@ -50,12 +50,12 @@ struct DetailGameView: View {
                             .multilineTextAlignment(.center)
                             .lineLimit(nil)
                             .frame(width: 140)
-                            .fontWeight(ShortClubName(fullName: myRound.homeTeam) == myTeam ? .bold : .regular)
+                            .fontWeight(myRound.homeTeam == myTeam ? .bold : .regular)
                         Text(myRound.awayTeam)
                             .multilineTextAlignment(.center)
                             .lineLimit(nil)
                             .frame(width: 140)
-                            .fontWeight(ShortClubName(fullName: myRound.awayTeam) == myTeam ? .bold : .regular)
+                            .fontWeight(myRound.awayTeam == myTeam ? .bold : .regular)
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
                 }

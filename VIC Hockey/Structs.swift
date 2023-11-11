@@ -15,6 +15,7 @@ class SharedData: ObservableObject {
     @Published var refreshLadder: Bool = false
     @Published var refreshRound: Bool = false
     @Published var refreshStats: Bool = false
+    @Published var currentRound: String = "Round 1"
 }
 
 struct DivisionStruct : Identifiable {

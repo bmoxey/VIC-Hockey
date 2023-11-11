@@ -31,9 +31,13 @@ struct MainTabView: View {
                     Text("Ladder")
                 }
                 .tag(1)
-            Text("cc")
+            RoundView()
+                .onAppear {
+                    sharedData.activeTabIndex = 2
+                }
+                .environmentObject(sharedData)
                 .tabItem {
-                    Image(systemName: "sportscourt.circle")
+                    Image(systemName: "sportscourt.circle.fill")
                     Text("Round")
                 }
                 .tag(2)

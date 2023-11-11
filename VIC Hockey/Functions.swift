@@ -240,11 +240,11 @@ func GetUrl(url: String) -> ([String], String) {
     }
 }
 
-func GetScores(scores: String) -> (Int, Int) {
+func GetScores(scores: String, seperator: String) -> (Int, Int) {
     var homeScore = 0
     var awayScore = 0
-    if scores.contains("-") {
-        let myScores = scores.components(separatedBy: "-")
+    if scores.contains(seperator) {
+        let myScores = scores.components(separatedBy: seperator)
         homeScore = Int(myScores[0].trimmingCharacters(in: .whitespaces)) ?? 0
         awayScore = Int(myScores[1].trimmingCharacters(in: .whitespaces)) ?? 0
     }
