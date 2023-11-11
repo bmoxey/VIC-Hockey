@@ -16,7 +16,7 @@ struct InvalidURLView: View {
             .scaledToFit()
             .frame(width: 240, height: 240)
             .foregroundStyle(Color(.gray))
-        Text("INVALID URL")
+        Text("ERROR:")
             .font(.largeTitle)
             .foregroundStyle(Color(.red))
         Text(url)
