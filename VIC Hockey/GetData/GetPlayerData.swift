@@ -7,13 +7,13 @@
 
 import Foundation
 
-func GetPlayerData(allTeams: [Teams], ourTeam: String, ourTeamID: String, myURL: String) -> ( [PlayerStat], String) {
+func GetPlayerData(allTeams: [Teams], ourCompID: String, ourTeam: String, ourTeamID: String, myURL: String) -> ( [PlayerStat], String) {
     var lines: [String] = []
     var errURL = ""
     var attended = false
     var started = false
     var playersStats: [PlayerStat] = []
-    (lines, errURL) = GetUrl(url: myURL)
+    (lines, errURL) = GetUrl(url: myURL.replacingOccurrences(of: "&amp;", with: "&"))
     for i in 0 ..< lines.count {
         if lines[i].contains("Match history") { started = true }
         if lines[i].contains("Did not attend") { attended = false }
@@ -29,7 +29,9 @@ func GetPlayerData(allTeams: [Teams], ourTeam: String, ourTeamID: String, myURL:
                 let myYellowCards = Int(GetPart(fullString: String(lines[i+6]), partNumber: 3)) ?? 0
                 let myRedCards = Int(GetPart(fullString: String(lines[i+8]), partNumber: 3)) ?? 0
                 let myGoalie = Int(GetPart(fullString: String(lines[i+10]), partNumber: 3)) ?? 0
-                playersStats.append(PlayerStat(roundNo: myRound, dateTime: myDateTime, teamID: myTeamID, teamName: filteredTeams[0].teamName, clubName: filteredTeams[0].clubName, divName: filteredTeams[0].divName, goals: myGoals, greenCards: myGreenCards, yellowCards: myYellowCards, redCards: myRedCards, goalie: myGoalie))
+                if !filteredTeams.isEmpty {
+                    playersStats.append(PlayerStat(roundNo: myRound, dateTime: myDateTime, teamID: myTeamID, teamName: filteredTeams[0].teamName, clubName: filteredTeams[0].clubName, divName: filteredTeams[0].divName, goals: myGoals, greenCards: myGreenCards, yellowCards: myYellowCards, redCards: myRedCards, goalie: myGoalie))
+                }
             }
         }
     }

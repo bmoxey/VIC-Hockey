@@ -102,7 +102,7 @@ struct StatisticsView: View {
                                         .buttonStyle(BorderlessButtonStyle())
                                     }
                                     ForEach(players.sorted(by: sortDescriptor)) { player in
-                                        NavigationLink(destination: PlayerStatsView(myTeam: currentTeam[0].teamName, myTeamID: currentTeam[0].teamID, player: player)) {
+                                        NavigationLink(destination: PlayerStatsView(myTeam: currentTeam[0].teamName, myTeamID: currentTeam[0].teamID, myCompID: currentTeam[0].compID,  player: player)) {
                                             DetailStatsView(player: player)
                                         }
                                     }

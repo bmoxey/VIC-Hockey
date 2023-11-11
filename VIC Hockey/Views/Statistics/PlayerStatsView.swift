@@ -15,6 +15,7 @@ struct PlayerStatsView: View {
     @Query var teams: [Teams]
     @State var myTeam: String
     @State var myTeamID: String
+    @State var myCompID: String
     @State var errURL = ""
     @State private var haveData = false
     @State var myStats: [PlayerStat] = []
@@ -85,7 +86,7 @@ struct PlayerStatsView: View {
     }
     
     func myloadData() async {
-        (myStats, errURL) = GetPlayerData(allTeams: teams, ourTeam: myTeam, ourTeamID: myTeamID, myURL: player.statsLink)
+        (myStats, errURL) = GetPlayerData(allTeams: teams, ourCompID: myCompID, ourTeam: myTeam, ourTeamID: myTeamID, myURL: player.statsLink)
         haveData = true
     }
     
@@ -106,5 +107,5 @@ struct CustomSectionHeader: View{
 }
 
 #Preview {
-    PlayerStatsView(myTeam: "MHSOB", myTeamID: "12345", player: Player(name: "Brett Moxey", numberGames: 0, goals: 5, greenCards: 1, yellowCards: 2, redCards: 0, goalie: 0, surname: "Moxey", captain: true, us: true, statsLink: ""))
+    PlayerStatsView(myTeam: "MHSOB", myTeamID: "12345",  myCompID: "aaaa", player: Player(name: "Brett Moxey", numberGames: 0, goals: 5, greenCards: 1, yellowCards: 2, redCards: 0, goalie: 0, surname: "Moxey", captain: true, us: true, statsLink: ""))
 }
