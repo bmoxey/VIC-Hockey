@@ -24,7 +24,7 @@ struct ContentView: View {
                     SelectCompetitionView(stillLoading: $stillLoading)
                 } else {
                     if currentTeam.isEmpty {
-                        SelectClubView(isNavigationLink: false)
+                        SelectClubView(isNavigationLink: false, isResetRefresh: false)
                     } else {
                         MainTabView()
                     }

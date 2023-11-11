@@ -17,6 +17,7 @@ struct SetTeamsView: View {
     @State private var isButtonTapped = false
     @State private var showingConfirmation = false
     @State private var shouldShowNoDataView = false
+    @State private var isNavigationLinkActive = false
     var body: some View {
         
         NavigationStack {
@@ -73,8 +74,16 @@ struct SetTeamsView: View {
                         Button(action: {
                             showingConfirmation = true
                         }, label: {
+                            VStack {
+                                Image(systemName: "arrow.triangle.2.circlepath.icloud.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30)
+                                    .foregroundStyle(Color.white)
                                 Text("Rebuild")
-                                .foregroundStyle(Color.white)
+                                    .font(.footnote)
+                                    .foregroundStyle(Color.white)
+                            }
                         })
                         .confirmationDialog("Are you sure?", isPresented: $showingConfirmation)
                         {
@@ -94,13 +103,13 @@ struct SetTeamsView: View {
                                 ContentView()
                             }
                         } message: {
-                            Text("This will delete all currently selected teams ")
+                            Text("This will delete all currently selected teams \n This process will take approx 5 mins")
                         }
                     }
 
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: SelectClubView(isNavigationLink: true)) {
+                    NavigationLink(destination: SelectClubView(isNavigationLink: true, isResetRefresh: true)) {
                         HStack {
                             Text("Add")
                                 .foregroundStyle(Color.white)
@@ -117,8 +126,8 @@ struct SetTeamsView: View {
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarBackground(Color("BarBackground"), for: .tabBar)
             .toolbarBackground(.visible, for: .tabBar)
-            
         }
+        
     }
 }
 

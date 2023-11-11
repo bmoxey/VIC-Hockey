@@ -47,7 +47,7 @@ struct SelectCompetitionView: View {
                         .foregroundStyle(Color("BarForeground"))
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Image("fulllogo1")
+                    Image("HockeyVic")
                         .resizable()
                         .frame(width: 93, height: 34)
                 }

@@ -12,6 +12,7 @@ struct SelectTeamView: View {
     @Environment(\.modelContext) var context
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject private var sharedData: SharedData
+    var isNavigationLink: Bool
     @State var myClub: String
     @Query var teams: [Teams]
     var myTeams: [Teams] {
@@ -63,12 +64,20 @@ struct SelectTeamView: View {
                                         sharedData.refreshLadder = true
                                         sharedData.refreshRound = true
                                         sharedData.refreshStats = true
+                                        sharedData.refreshTeams = true
                                         sharedData.activeTabIndex = 0
                                     }
                                 }
                             }
                         }
                     }
+                }
+            }
+        }
+        .onAppear {
+            if isNavigationLink {
+                if sharedData.refreshTeams {
+                    self.presentationMode.wrappedValue.dismiss()
                 }
             }
         }
@@ -90,5 +99,5 @@ struct SelectTeamView: View {
 }
 
 #Preview {
-    SelectTeamView(myClub: "MHSOB")
+    SelectTeamView(isNavigationLink: true, myClub: "MHSOB")
 }

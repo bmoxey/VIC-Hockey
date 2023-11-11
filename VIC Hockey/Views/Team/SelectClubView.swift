@@ -9,16 +9,19 @@ import SwiftUI
 import SwiftData
 
 struct SelectClubView: View {
+    @EnvironmentObject private var sharedData: SharedData
+    @Environment(\.presentationMode) var presentationMode
     @Environment(\.modelContext) var context
     @Query(sort: \Teams.clubName) var teams: [Teams]
     var isNavigationLink: Bool
+    @State var isResetRefresh: Bool
     @State private var showingConfirmation = false
     var body: some View {
         NavigationStack {
             let uniqueClubs = Array(Set(teams.map { $0.clubName }))
             List {
                 ForEach(uniqueClubs.sorted(), id: \.self) { club in
-                    NavigationLink(destination: SelectTeamView(myClub: club)) {
+                    NavigationLink(destination: SelectTeamView(isNavigationLink: isNavigationLink, myClub: club)) {
                         HStack {
                             Image(club)
                                 .resizable()
@@ -32,7 +35,7 @@ struct SelectClubView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Image("fulllogo1")
+                    Image("HockeyVic")
                         .resizable()
                         .frame(width: 93, height: 34)
                 }
@@ -75,9 +78,21 @@ struct SelectClubView: View {
             .toolbarBackground(Color("BarBackground"), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
         }
+        .onAppear {
+            if isNavigationLink {
+                if isResetRefresh {
+                    sharedData.refreshTeams = false
+                    self.isResetRefresh = false
+                } else {
+                    if sharedData.refreshTeams {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    SelectClubView(isNavigationLink: false)
+    SelectClubView(isNavigationLink: false, isResetRefresh: true)
 }
