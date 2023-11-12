@@ -11,8 +11,6 @@ func GetPlayerData(allTeams: [Teams], ourCompID: String, ourTeam: String, ourTea
     var lines: [String] = []
     var newlines: [String] = []
     var errURL = ""
-    var attended = false
-    var started = false
     var playersStats: [PlayerStat] = []
     (lines, errURL) = GetUrl(url: myURL.replacingOccurrences(of: "&amp;", with: "&"))
     for i in 0 ..< lines.count {

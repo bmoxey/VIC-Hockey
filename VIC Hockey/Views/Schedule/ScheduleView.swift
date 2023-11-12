@@ -86,12 +86,6 @@ struct ScheduleView: View {
                 .toolbarBackground(Color("BarBackground"), for: .tabBar)
                 .toolbarBackground(.visible, for: .tabBar)
             }
-            .onAppear() {
-                if sharedData.refreshSchedule {
-                    haveData = false
-                    sharedData.refreshSchedule = false
-                }
-            }
         }
     }
     

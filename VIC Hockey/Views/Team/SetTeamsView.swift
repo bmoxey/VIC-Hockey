@@ -75,9 +75,6 @@ struct SetTeamsView: View {
                         }, label: {
                             VStack {
                                 Image(systemName: "arrow.triangle.2.circlepath.icloud.fill")
-//                                    .resizable()
-//                                    .scaledToFit()
-//                                    .frame(width: 40)
                                     .foregroundStyle(Color.white)
                                 Text("Rebuild")
                                     .font(.footnote)
