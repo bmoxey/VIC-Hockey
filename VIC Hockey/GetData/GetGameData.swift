@@ -16,6 +16,7 @@ func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Playe
     var awayPlayers: [Player] = []
     var otherGames: [Round] = []
     var errURL = ""
+    var fillins: Bool = false
     (lines, errURL) = GetUrl(url: "https://www.hockeyvictoria.org.au/game/" + gameNumber + "/")
     var count = 0
     for i in 0 ..< lines.count {
@@ -32,6 +33,7 @@ func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Playe
                 myRound.roundNo = GetRound(fullString: myRound.fullRound)
             }
         }
+        if lines[i].contains("Fill ins") { fillins = true }
         if lines[i].contains("www.hockeyvictoria.org.au/teams/") {
             if lines[i].contains("<span class=\"badge badge-danger\">FF</span>") || lines[i].contains("<span class=\"badge badge-warning\">FL</span>") {
                 let team = ShortTeamName(fullName: GetPart(fullString: String(lines[i]), partNumber: 13))
@@ -108,10 +110,16 @@ func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Playe
         }
         if lines[i].contains("<div class=\"table-responsive\">") {
             myTeamName = ShortTeamName(fullName: GetPart(fullString: String(lines[i-3]), partNumber: 3))
+            fillins = false
         }
         if lines[i].contains("https://www.hockeyvictoria.org.au/statistics/") {
-            if String(GetPart(fullString: String(lines[i]), partNumber: 11)) == "Attended" {
-                var myName = GetPart(fullString: String(lines[i]), partNumber: 18).capitalized
+            if String(GetPart(fullString: String(lines[i]), partNumber: 11)) == "Attended" || fillins {
+                var myName = ""
+                if fillins {
+                    myName = GetPart(fullString: String(lines[i]), partNumber: 7).capitalized
+                } else {
+                    myName = GetPart(fullString: String(lines[i]), partNumber: 18).capitalized
+                }
                 var myCap = false
                 if myName.contains(" (Captain)") {
                     myCap = true
@@ -125,6 +133,7 @@ func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Playe
                         let mybits1 = surname.split(separator: "'")
                         surname = mybits1[0].capitalized + "'" + mybits1[1].capitalized
                     }
+                    surname = FixMcName(fullString: surname)
                     myName = mybits[1].trimmingCharacters(in: .whitespaces).capitalized + " " + surname
                 }
                 let myGoals = Int(GetPart(fullString: String(lines[i+2]), partNumber: 3)) ?? 0
@@ -136,9 +145,9 @@ func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Playe
                 if myTeamName != myTeam { us = false }
                 let games = 0
                 if myRound.homeTeam == myTeamName {
-                    homePlayers.append(Player(name: myName, numberGames: games, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, us: us, statsLink: ""))
+                    homePlayers.append(Player(name: myName, numberGames: games, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, fillin: fillins, us: us, statsLink: ""))
                 } else {
-                    awayPlayers.append(Player(name: myName, numberGames: games, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, us: us, statsLink: ""))
+                    awayPlayers.append(Player(name: myName, numberGames: games, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, fillin: fillins, us: us, statsLink: ""))
                 }
             }
         }

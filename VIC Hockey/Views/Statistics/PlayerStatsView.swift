@@ -108,5 +108,5 @@ struct CustomSectionHeader: View{
 }
 
 #Preview {
-    PlayerStatsView(myTeam: "MHSOB", myTeamID: "12345",  myCompID: "aaaa", player: Player(name: "Brett Moxey", numberGames: 0, goals: 5, greenCards: 1, yellowCards: 2, redCards: 0, goalie: 0, surname: "Moxey", captain: true, us: true, statsLink: ""))
+    PlayerStatsView(myTeam: "MHSOB", myTeamID: "12345",  myCompID: "aaaa", player: Player(name: "Brett Moxey", numberGames: 0, goals: 5, greenCards: 1, yellowCards: 2, redCards: 0, goalie: 0, surname: "Moxey", captain: true, fillin: false, us: true, statsLink: ""))
 }

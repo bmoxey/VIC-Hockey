@@ -10,12 +10,14 @@ import Foundation
 func GetStatsData(myCompID: String, myTeamID: String) -> ( [Player], String) {
     var lines: [String] = []
     var errURL = ""
+    var fillins = false
     var players: [Player] = []
     (lines, errURL) = GetUrl(url: "https://www.hockeyvictoria.org.au/teams-stats/" + myCompID + "/&t=" + myTeamID)
     for i in 0 ..< lines.count {
         if lines[i].contains("There are no records to show.") {
             errURL = "There are no records to show."
         }
+        if lines[i].contains("Fill ins") { fillins = true }
         if lines[i].contains("https://www.hockeyvictoria.org.au/statistics/") {
             let statsLink = String(lines[i].split(separator: "\"")[3])
             var myName = GetPart(fullString: String(lines[i]), partNumber: 7).capitalized.trimmingCharacters(in: CharacterSet.letters.inverted)
@@ -32,6 +34,7 @@ func GetStatsData(myCompID: String, myTeamID: String) -> ( [Player], String) {
                     let mybits1 = surname.split(separator: "'")
                     surname = mybits1[0].capitalized + "'" + mybits1[1].capitalized
                 }
+                surname = FixMcName(fullString: surname)
                 myName = mybits[1].trimmingCharacters(in: .whitespaces).capitalized + " " + surname
             }
             let myGames = Int(GetPart(fullString: String(lines[i+1]), partNumber: 3)) ?? 0
@@ -40,7 +43,7 @@ func GetStatsData(myCompID: String, myTeamID: String) -> ( [Player], String) {
             let myYellow = Int(GetPart(fullString: String(lines[i+7]), partNumber: 3)) ?? 0
             let myRed = Int(GetPart(fullString: String(lines[i+9]), partNumber: 3)) ?? 0
             let myGoalie = Int(GetPart(fullString: String(lines[i+11]), partNumber: 3)) ?? 0
-            players.append(Player(name: myName, numberGames: myGames, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, us: true, statsLink: statsLink))
+            players.append(Player(name: myName, numberGames: myGames, goals: myGoals, greenCards: myGreen, yellowCards: myYellow, redCards: myRed, goalie: myGoalie, surname: surname, captain: myCap, fillin: fillins, us: true, statsLink: statsLink))
         }
     }
     

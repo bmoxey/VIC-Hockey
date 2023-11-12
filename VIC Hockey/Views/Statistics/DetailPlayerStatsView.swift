@@ -11,6 +11,10 @@ struct DetailPlayerStatsView: View {
     var playerStat: PlayerStat
     var body: some View {
         HStack {
+            if playerStat.fillin {
+                Image(systemName: "person.fill.badge.plus")
+                    .foregroundColor(Color("AccentColor"))
+            }
             Image(playerStat.clubName)
                 .resizable()
                 .frame(width: 45, height: 45)
@@ -60,5 +64,5 @@ struct DetailPlayerStatsView: View {
 }
 
 #Preview {
-    DetailPlayerStatsView(playerStat: PlayerStat(roundNo: "Round 1", dateTime: "Sat 15 Apr 2023 15:30", teamID: "123", teamName: "Waverley Hockey Club", clubName: "Waverley", divName: "State league 1", goals: 2, greenCards: 1, yellowCards: 1, redCards: 0, goalie: 0))
+    DetailPlayerStatsView(playerStat: PlayerStat(roundNo: "Round 1", dateTime: "Sat 15 Apr 2023 15:30", teamID: "123", teamName: "Waverley Hockey Club", clubName: "Waverley", divName: "State league 1", goals: 2, greenCards: 1, yellowCards: 1, redCards: 0, goalie: 0, fillin: false))
 }

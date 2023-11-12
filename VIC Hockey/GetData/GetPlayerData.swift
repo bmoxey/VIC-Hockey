@@ -29,7 +29,9 @@ func GetPlayerData(allTeams: [Teams], ourCompID: String, ourTeam: String, ourTea
     }
     for i in 0 ..< lines.count {
         if lines[i].contains("https://www.hockeyvictoria.org.au/teams") {
-            if lines[i-2].contains("Attended") {
+            if lines[i-2].contains("Attended") || lines[i-2].contains("Filled in") {
+                var fillin: Bool
+                if lines[i-2].contains("Filled in") { fillin = true } else { fillin = false }
                 let myRound = GetPart(fullString: String(lines[i-1]), partNumber: 7)
                 let myDateTime = GetPart(fullString: String(lines[i-1]), partNumber: 12)
                 let myTeamID = GetPart(fullString: String(lines[i]), partNumber: 7)
@@ -40,7 +42,7 @@ func GetPlayerData(allTeams: [Teams], ourCompID: String, ourTeam: String, ourTea
                 let myRedCards = Int(GetPart(fullString: String(lines[i+8]), partNumber: 3)) ?? 0
                 let myGoalie = Int(GetPart(fullString: String(lines[i+10]), partNumber: 3)) ?? 0
                 if !filteredTeams.isEmpty {
-                    playersStats.append(PlayerStat(roundNo: myRound, dateTime: myDateTime, teamID: myTeamID, teamName: filteredTeams[0].teamName, clubName: filteredTeams[0].clubName, divName: filteredTeams[0].divName, goals: myGoals, greenCards: myGreenCards, yellowCards: myYellowCards, redCards: myRedCards, goalie: myGoalie))
+                    playersStats.append(PlayerStat(roundNo: myRound, dateTime: myDateTime, teamID: myTeamID, teamName: filteredTeams[0].teamName, clubName: filteredTeams[0].clubName, divName: filteredTeams[0].divName, goals: myGoals, greenCards: myGreenCards, yellowCards: myYellowCards, redCards: myRedCards, goalie: myGoalie, fillin: fillin))
                 }
             }
         }

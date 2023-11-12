@@ -11,6 +11,10 @@ struct DetailStatsView: View {
     var player: Player
     var body: some View {
         HStack {
+            if player.fillin {
+                Image(systemName: "person.fill.badge.plus")
+                    .foregroundColor(Color("AccentColor"))
+            }
             Text(player.name)
             if player.goalie > 0 {
                 Text("(GK)")
@@ -51,5 +55,5 @@ struct DetailStatsView: View {
 }
 
 #Preview {
-    DetailStatsView(player: Player(name: "Brett Moxey", numberGames: 2, goals: 5, greenCards: 1, yellowCards: 2, redCards: 0, goalie: 0, surname: "Moxey", captain: true, us: true, statsLink: ""))
+    DetailStatsView(player: Player(name: "Brett Moxey", numberGames: 2, goals: 5, greenCards: 1, yellowCards: 2, redCards: 0, goalie: 0, surname: "Moxey", captain: true, fillin: false, us: true, statsLink: ""))
 }

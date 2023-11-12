@@ -73,6 +73,7 @@ struct Player: Identifiable {
     var goalie: Int
     var surname: String
     var captain: Bool
+    var fillin: Bool
     var us: Bool
     var statsLink: String
 }
@@ -90,6 +91,7 @@ struct PlayerStat: Identifiable {
     var yellowCards: Int
     var redCards: Int
     var goalie: Int
+    var fillin: Bool
 }
 
 struct Rounds: Codable {

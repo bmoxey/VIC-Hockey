@@ -322,6 +322,12 @@ func GetHomeTeam(result: String, homeGoals: Int, awayGoals: Int, myTeam: String,
     return (homeTeam, awayTeam)
 }
 
+func FixMcName(fullString: String) -> String {
+    let name = fullString
+    let modifiedName = name.count >= 3 && name.lowercased().hasPrefix("mc") ? String(name.prefix(2)) + name[name.index(name.startIndex, offsetBy: 2)].uppercased() + String(name.suffix(from: name.index(after: name.index(name.startIndex, offsetBy: 2)))) : name
+    return modifiedName
+}
+
 func BarBackground(result: String) -> Color {
     switch result {
     case "Win":
