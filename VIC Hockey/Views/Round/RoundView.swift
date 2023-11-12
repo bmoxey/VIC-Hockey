@@ -29,7 +29,6 @@ struct RoundView: View {
                             InvalidURLView(url: errURL)
                         } else {
                             List {
-                                
                                     ForEach(rounds, id: \.id) { round in
                                         Section(header: Text(round.dateTime)) {
                                         DetailRoundView(myTeam: currentTeam[0].teamName, myRound: round)

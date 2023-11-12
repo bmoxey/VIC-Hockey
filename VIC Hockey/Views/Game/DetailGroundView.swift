@@ -26,11 +26,19 @@ struct DetailGroundView: View {
                     Text(myRound.venue)
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
-                Button(" Open in Google Maps") {
+                Button {
                     openGoogleMaps(with: "\(myRound.venue), \(myRound.address) , Victoria, Australia", label: "\(myRound.venue)")
+                } label: {
+                    HStack {
+                        Text("Open in Google Maps")
+                            .foregroundColor(Color("AccentColor"))
+                        Image(systemName: "chevron.right")
+                            .font(Font.system(size: 17, weight: .semibold))
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(Color("AccentColor"))
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
                 }
-                .foregroundColor(Color(.blue))
-                .frame(maxWidth: .infinity, alignment: .center)
             }
         }
     }

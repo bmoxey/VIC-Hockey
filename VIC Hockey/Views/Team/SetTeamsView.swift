@@ -19,7 +19,6 @@ struct SetTeamsView: View {
     @State private var shouldShowNoDataView = false
     @State private var isNavigationLinkActive = false
     var body: some View {
-        
         NavigationStack {
             List {
                 Section(header: Text("Current")) {
@@ -76,9 +75,9 @@ struct SetTeamsView: View {
                         }, label: {
                             VStack {
                                 Image(systemName: "arrow.triangle.2.circlepath.icloud.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 30)
+//                                    .resizable()
+//                                    .scaledToFit()
+//                                    .frame(width: 40)
                                     .foregroundStyle(Color.white)
                                 Text("Rebuild")
                                     .font(.footnote)

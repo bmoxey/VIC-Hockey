@@ -24,36 +24,32 @@ struct LadderItemView: View {
                 if errURL != "" {
                     InvalidURLView(url: errURL)
                 } else {
-                    HStack {
-                        Image(ShortClubName(fullName: item.teamName))
-                            .resizable()
-                            .frame(width: 45, height: 45)
-                        Spacer()
-                        Text(item.teamName)
-                            .font(.title)
-                        Spacer()
-                        if item.pos == 1 {
-                            Text("\(item.pos)st")
-                                .font(.largeTitle)
-                        }
-                        if item.pos == 2 {
-                            Text("\(item.pos)nd")
-                                .font(.largeTitle)
-                        }
-                        if item.pos == 3 {
-                            Text("\(item.pos)rd")
-                                .font(.largeTitle)
-                        }
-                        if item.pos > 3 {
-                            Text("\(item.pos)th")
-                                .font(.largeTitle)
-                        }
-                    }
-                    .padding(.horizontal, 32)
-                    .padding(.top, 16)
                     List {
                         Section(header: Text("Results")) {
                             VStack {
+                                HStack{
+                                    Spacer()
+                                    Text("Ladder Position: ")
+                                        .font(.largeTitle)
+                                        .foregroundStyle(Color(.gray))
+                                    if item.pos == 1 {
+                                        Text("\(item.pos)st")
+                                            .font(.largeTitle)
+                                    }
+                                    if item.pos == 2 {
+                                        Text("\(item.pos)nd")
+                                            .font(.largeTitle)
+                                    }
+                                    if item.pos == 3 {
+                                        Text("\(item.pos)rd")
+                                            .font(.largeTitle)
+                                    }
+                                    if item.pos > 3 {
+                                        Text("\(item.pos)th")
+                                            .font(.largeTitle)
+                                    }
+                                    Spacer()
+                                }
                                 HStack {
                                     ForEach(0 ..< item.wins, id: \.self) { _ in
                                         Image(systemName: "checkmark.square.fill")
@@ -119,7 +115,6 @@ struct LadderItemView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(item.teamName)

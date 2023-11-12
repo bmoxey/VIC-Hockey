@@ -43,7 +43,8 @@ struct PlayerStatsView: View {
                             if uniqueTeamID != myTeamID {
                             let filteredStats = myStats.filter { $0.teamID == uniqueTeamID }
                                 if !filteredStats.isEmpty {
-                                    Section(header: CustomSectionHeader(myStats: filteredStats, myTeam: myTeam)  ) {
+                                    Section(header: Text(filteredStats[0].divName)) {
+//                                    Section(header: CustomSectionHeader(myStats: filteredStats, myTeam: myTeam)  ) {
                                         ForEach(filteredStats) {playerStats in
                                             DetailPlayerStatsView(playerStat: playerStats)
                                         }

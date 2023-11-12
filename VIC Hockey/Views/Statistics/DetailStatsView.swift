@@ -17,7 +17,7 @@ struct DetailStatsView: View {
             }
             if player.captain {
                 Image(systemName: "star.circle")
-                    .foregroundStyle(Color("HighlightColor"))
+                    .foregroundStyle(Color("AccentColor"))
             }
             if player.greenCards > 0 {
                 Text(String(repeating: "▲", count: player.greenCards))

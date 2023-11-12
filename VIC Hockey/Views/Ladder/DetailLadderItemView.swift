@@ -24,6 +24,7 @@ struct DetailLadderItemView: View {
                 .multilineTextAlignment(.leading)
                 .lineLimit(nil)
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                .fontWeight(item.teamName == myTeam ? .bold : .regular)
                 .foregroundStyle(Color(item.teamName == myTeam ? "AccentColor" : "DefaultColor"))
             Text("\(item.diff)")
                 .frame(width: 35, alignment: .trailing)

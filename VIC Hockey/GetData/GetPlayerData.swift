@@ -9,17 +9,29 @@ import Foundation
 
 func GetPlayerData(allTeams: [Teams], ourCompID: String, ourTeam: String, ourTeamID: String, myURL: String) -> ( [PlayerStat], String) {
     var lines: [String] = []
+    var newlines: [String] = []
     var errURL = ""
     var attended = false
     var started = false
     var playersStats: [PlayerStat] = []
     (lines, errURL) = GetUrl(url: myURL.replacingOccurrences(of: "&amp;", with: "&"))
     for i in 0 ..< lines.count {
-        if lines[i].contains("Match history") { started = true }
-        if lines[i].contains("Did not attend") { attended = false }
-        if lines[i].contains("Attended") { attended = true }
+        if lines[i].contains("https://www.hockeyvictoria.org.au/statistics/") {
+            let opts = String(lines[i+3]).split(separator: "option")
+            for j in 0 ..< opts.count{
+                if String(opts[j]).contains("value=") {
+                    let testCompID = GetPart(fullString: String(opts[j]), partNumber: 1)
+                    if testCompID != ourCompID {
+                        (newlines, errURL) = GetUrl(url: myURL.replacingOccurrences(of: "&amp;", with: "&").replacingOccurrences(of: ourCompID, with: testCompID))
+                        lines = lines + newlines
+                    }
+                }
+            }
+        }
+    }
+    for i in 0 ..< lines.count {
         if lines[i].contains("https://www.hockeyvictoria.org.au/teams") {
-            if started && attended {
+            if lines[i-2].contains("Attended") {
                 let myRound = GetPart(fullString: String(lines[i-1]), partNumber: 7)
                 let myDateTime = GetPart(fullString: String(lines[i-1]), partNumber: 12)
                 let myTeamID = GetPart(fullString: String(lines[i]), partNumber: 7)

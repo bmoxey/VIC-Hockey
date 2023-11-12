@@ -13,7 +13,7 @@ struct DetailPlayerView: View {
         HStack {
             Text(player.name)
             if player.goalie == 1 {
-                Text(" (GK)")
+                Text("(GK)")
             }
             if player.captain {
                 Image(systemName: "star.circle")

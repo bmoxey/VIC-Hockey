@@ -32,40 +32,42 @@ struct SelectTeamView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(Dictionary(grouping: myTeams, by: { $0.divType }).sorted(by: { $0.key < $1.key }), id: \.key) { (key, divType) in
-                    Section(header: Text(key).font(.largeTitle)) {
-                        ForEach(mySortedTeams, id: \.self) { team in
-                            if team.divType == key {
-                                VStack {
-                                    HStack {
-                                        Text(team.divName)
-                                        Spacer()
-                                    }
-                                    if team.clubName != team.teamName {
+                ForEach(Dictionary(grouping: myTeams, by: { $0.divType }).sorted(by: { $0.key < $1.key }), id: \.key) { (divType, teamsGroupedByDivType) in
+                    Section(header: HStack { Spacer(); Text(divType).font(.largeTitle); Spacer() }) {
+                        ForEach(Dictionary(grouping: teamsGroupedByDivType, by: { $0.compName }).sorted(by: { $0.key < $1.key }), id: \.key) { (compName, teamsGroupedByCompName) in
+                            Section(header: HStack { Spacer(); Text(compName).foregroundStyle(Color("AccentColor"));  Spacer() }) {
+                                ForEach(teamsGroupedByCompName, id: \.self) { team in
+                                    VStack {
                                         HStack {
-                                            Text(team.teamName)
-                                                .font(.footnote)
+                                            Text(team.divName)
                                             Spacer()
                                         }
-                                    }
-                                }
-                                .onTapGesture {
-                                    var count = 0
-                                    for index in 0 ..< teams.count {
-                                        if teams[index].isCurrent == true {
-                                            count = count + 1
-                                            teams[index].isCurrent = false
+                                        if team.clubName != team.teamName {
+                                            HStack {
+                                                Text(team.teamName)
+                                                    .font(.footnote)
+                                                Spacer()
+                                            }
                                         }
                                     }
-                                    team.isCurrent = true
-                                    team.isUsed = true
-                                    if count > 0 {
-                                        sharedData.refreshSchedule = true
-                                        sharedData.refreshLadder = true
-                                        sharedData.refreshRound = true
-                                        sharedData.refreshStats = true
-                                        sharedData.refreshTeams = true
-                                        sharedData.activeTabIndex = 0
+                                    .onTapGesture {
+                                        var count = 0
+                                        for index in 0 ..< teams.count {
+                                            if teams[index].isCurrent == true {
+                                                count = count + 1
+                                                teams[index].isCurrent = false
+                                            }
+                                        }
+                                        team.isCurrent = true
+                                        team.isUsed = true
+                                        if count > 0 {
+                                            sharedData.refreshSchedule = true
+                                            sharedData.refreshLadder = true
+                                            sharedData.refreshRound = true
+                                            sharedData.refreshStats = true
+                                            sharedData.refreshTeams = true
+                                            sharedData.activeTabIndex = 0
+                                        }
                                     }
                                 }
                             }

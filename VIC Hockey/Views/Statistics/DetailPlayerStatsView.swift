@@ -11,11 +11,14 @@ struct DetailPlayerStatsView: View {
     var playerStat: PlayerStat
     var body: some View {
         HStack {
+            Image(playerStat.clubName)
+                .resizable()
+                .frame(width: 45, height: 45)
             VStack(alignment: .leading) {
-                Text("\(playerStat.roundNo) - \(playerStat.dateTime)")
+                Text("\(playerStat.dateTime)")
                     .font(.footnote)
                     .foregroundStyle(Color(.gray))
-                Text(playerStat.teamName)
+                Text("\(playerStat.roundNo) - \(playerStat.teamName)")
             }
             if playerStat.goalie == 1 {
                 Text(" (GK)")
@@ -48,8 +51,11 @@ struct DetailPlayerStatsView: View {
                 .foregroundStyle(Color.green)
                 .padding(.vertical, 0)
                 .padding(.horizontal, 0)
+                .multilineTextAlignment(.trailing)
+                .lineLimit(nil)
             }
         }
+        .padding(.horizontal, -8)
     }
 }
 

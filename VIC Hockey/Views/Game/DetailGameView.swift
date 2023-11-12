@@ -51,11 +51,13 @@ struct DetailGameView: View {
                             .lineLimit(nil)
                             .frame(width: 140)
                             .fontWeight(myRound.homeTeam == myTeam ? .bold : .regular)
+                            .foregroundStyle(Color(myRound.homeTeam == myTeam ? "AccentColor" : "DefaultColor"))
                         Text(myRound.awayTeam)
                             .multilineTextAlignment(.center)
                             .lineLimit(nil)
                             .frame(width: 140)
                             .fontWeight(myRound.awayTeam == myTeam ? .bold : .regular)
+                            .foregroundStyle(Color(myRound.awayTeam == myTeam ? "AccentColor" : "DefaultColor"))
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
                 }

@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ScheduleView: View {
+    
     @Environment(\.modelContext) var context
     @EnvironmentObject private var sharedData: SharedData
     @State private var errURL = ""
@@ -60,6 +61,7 @@ struct ScheduleView: View {
                             }
                         }
                     }
+                    
                 }
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -87,6 +89,7 @@ struct ScheduleView: View {
             .onAppear() {
                 if sharedData.refreshSchedule {
                     haveData = false
+                    sharedData.refreshSchedule = false
                 }
             }
         }

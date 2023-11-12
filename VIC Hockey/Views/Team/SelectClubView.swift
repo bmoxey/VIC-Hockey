@@ -90,6 +90,7 @@ struct SelectClubView: View {
                 }
             }
         }
+        .accentColor(.white)
     }
 }
 
