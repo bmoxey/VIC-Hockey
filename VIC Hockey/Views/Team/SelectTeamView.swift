@@ -32,7 +32,7 @@ struct SelectTeamView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(Dictionary(grouping: myTeams, by: { $0.divType }).sorted(by: { $0.key < $1.key }), id: \.key) { (divType, teamsGroupedByDivType) in
+                ForEach(Dictionary(grouping: mySortedTeams, by: { $0.divType }).sorted(by: { $0.key < $1.key }), id: \.key) { (divType, teamsGroupedByDivType) in
                     Section(header: HStack { Spacer(); Text(divType).font(.largeTitle); Spacer() }) {
                         ForEach(Dictionary(grouping: teamsGroupedByDivType, by: { $0.compName }).sorted(by: { $0.key < $1.key }), id: \.key) { (compName, teamsGroupedByCompName) in
                             Section(header: HStack { Spacer(); Text(compName).foregroundStyle(Color("AccentColor"));  Spacer() }) {
@@ -44,7 +44,7 @@ struct SelectTeamView: View {
                                         }
                                         if team.clubName != team.teamName {
                                             HStack {
-                                                Text(team.teamName)
+                                                Text("competing as \(team.teamName)")
                                                     .font(.footnote)
                                                 Spacer()
                                             }

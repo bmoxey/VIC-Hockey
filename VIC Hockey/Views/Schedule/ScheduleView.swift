@@ -57,7 +57,7 @@ struct ScheduleView: View {
                                 }
                             }
                             .refreshable {
-                                sharedData.refreshSchedule = true
+                                haveData = false
                             }
                         }
                     }
@@ -85,6 +85,11 @@ struct ScheduleView: View {
                 .toolbarBackground(.visible, for: .navigationBar)
                 .toolbarBackground(Color("BarBackground"), for: .tabBar)
                 .toolbarBackground(.visible, for: .tabBar)
+            }
+            .onAppear {
+                if sharedData.refreshSchedule {
+                    haveData = false
+                }
             }
         }
     }

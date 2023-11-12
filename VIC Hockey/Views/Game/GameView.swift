@@ -62,6 +62,7 @@ struct GameView: View {
         }
         .onAppear {
             if sharedData.refreshSchedule {
+                sharedData.refreshSchedule = false
                 self.presentationMode.wrappedValue.dismiss()
             }
         }

@@ -42,6 +42,7 @@ struct SetTeamsView: View {
                                             sharedData.refreshLadder = true
                                             sharedData.refreshRound = true
                                             sharedData.refreshStats = true
+                                            sharedData.newTeamID = usedTeams[index].teamID
                                             sharedData.activeTabIndex = 0
                                         }
                                         
