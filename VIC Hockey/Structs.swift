@@ -100,7 +100,6 @@ struct Rounds: Codable {
 
 struct Round: Codable {
     var id: UUID
-    var roundNo: String
     var fullRound: String
     var dateTime: String
     var field: String

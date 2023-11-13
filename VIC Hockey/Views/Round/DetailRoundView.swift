@@ -29,7 +29,7 @@ struct DetailRoundView: View {
                     .frame(width: 160)
                     .fontWeight(myRound.homeTeam == myTeam ? .bold : .regular)
                     .foregroundStyle(Color(myRound.homeTeam == myTeam ? Color("AccentColor") : .default))
-                if myRound.starts == "" {
+                if myRound.result != "No Data" {
                     Text("\(myRound.homeGoals)")
                         .font(.largeTitle)
                         .frame(width: 60, height: 45)
@@ -37,7 +37,7 @@ struct DetailRoundView: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            Text("VS")
+            Text("vs")
             HStack {
                 Image(ShortClubName(fullName: myRound.awayTeam))
                     .resizable()
@@ -48,7 +48,7 @@ struct DetailRoundView: View {
                     .frame(width: 160)
                     .fontWeight(myRound.awayTeam == myTeam ? .bold : .regular)
                     .foregroundStyle(Color(myRound.awayTeam == myTeam ? Color("AccentColor") : .default))
-                if myRound.starts == "" {
+                if myRound.result != "No Data" {
                     Text("\(myRound.awayGoals)")
                         .font(.largeTitle)
                         .frame(width: 60, height: 45)
@@ -63,5 +63,5 @@ struct DetailRoundView: View {
 }
 
 #Preview {
-    DetailRoundView(myTeam: "MHSOB", myRound: Round(id: UUID(), roundNo: "1", fullRound: "Round 1", dateTime: "Sat 15 Apr 2023 @ 14:00", field: "MBT", venue: "Melbourne Hockey Field", address: "21 Smith St", opponent: "Hawthorn", homeTeam: "Hawthorn", awayTeam: "MHSOB", homeGoals: 6, awayGoals: 7, score: "6 - 7", starts: "", result: "Win", played: "Completed", game: "1439971"))
+    DetailRoundView(myTeam: "MHSOB", myRound: Round(id: UUID(), fullRound: "Round 1", dateTime: "Sat 15 Apr 2023 @ 14:00", field: "MBT", venue: "Melbourne Hockey Field", address: "21 Smith St", opponent: "Hawthorn", homeTeam: "Hawthorn", awayTeam: "MHSOB", homeGoals: 6, awayGoals: 7, score: "6 - 7", starts: "", result: "Win", played: "Completed", game: "1439971"))
 }

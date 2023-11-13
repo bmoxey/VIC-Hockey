@@ -13,8 +13,8 @@ struct GameView: View {
     @State var myTeam: String
     @State var myTeamID: String
     @State var errURL = ""
-    @State var myRound: Round = Round(id: UUID(), roundNo: "", fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "", played: "", game: "")
-    @State var myGame: Round = Round(id: UUID(), roundNo: "", fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "", played: "", game: "")
+    @State var myRound: Round = Round(id: UUID(), fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "", played: "", game: "")
+    @State var myGame: Round = Round(id: UUID(), fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "", played: "", game: "")
     @State private var haveData = false
     @State private var homePlayers: [Player] = []
     @State private var awayPlayers: [Player] = []
@@ -61,9 +61,17 @@ struct GameView: View {
             }
         }
         .onAppear {
-            if sharedData.refreshSchedule {
-                sharedData.refreshSchedule = false
-                self.presentationMode.wrappedValue.dismiss()
+            if sharedData.activeTabIndex == 0 {
+                if sharedData.refreshSchedule {
+                    sharedData.refreshSchedule = false
+                    self.presentationMode.wrappedValue.dismiss()
+                }
+            }
+            if sharedData.activeTabIndex == 2 {
+                if sharedData.refreshRound {
+                    sharedData.refreshRound = false
+                    self.presentationMode.wrappedValue.dismiss()
+                }
             }
         }
         .navigationBarTitleDisplayMode(.inline)

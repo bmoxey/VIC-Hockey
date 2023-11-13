@@ -17,8 +17,9 @@ func GetRound(fullString: String) -> String {
     return newString
 }
 
-func GetStart(inputDate: String) -> String {
+func GetStart(inputDate: String) -> (String, String) {
     var starts: String
+    var played: String
     let dateFormatter = DateFormatter()
     let today = Date.now
     dateFormatter.dateFormat = "E dd MMM yyyy @ HH:mm"
@@ -28,10 +29,12 @@ func GetStart(inputDate: String) -> String {
     let hrs = diffComponents.hour
     if days! > 0 || (days! == 0 && hrs! > 0){
         starts = "Starts in \(days!) days and \(hrs!) hours"
+        played = "Upcoming"
     } else {
         starts = ""
+        played = "Completed"
     }
-    return starts
+    return (starts, played)
 }
 
 func GetDivLevel(fullString: String) -> String {
@@ -194,8 +197,8 @@ func GetDivType(fullName: String) -> String {
     if fullName.contains("Women") { newString = "Womens 👩🏻" }
     if fullName.contains("Boy") { newString = "boys 👦🏻" }
     if fullName.contains("Girl") { newString = "girls 👧🏻" }
-    if fullName.contains("+") && fullName.contains("Men") { newString = "vets - Mens 👴🏻" }
-    if fullName.contains("+") && fullName.contains("Women") { newString = "vets - Womens 👵🏻" }
+    if fullName.contains("+") && fullName.contains("Men") { newString = "vets Mens 👴🏻" }
+    if fullName.contains("+") && fullName.contains("Women") { newString = "vets Womens 👵🏻" }
     return newString
 }
 
@@ -220,7 +223,6 @@ func fetchData(from url: URL) -> String? {
         }
     }.resume()
     semaphore.wait()
-    
     return result
 }
 
@@ -235,7 +237,6 @@ func GetUrl(url: String) -> ([String], String) {
         else {
             return ([], url)
         }
-//        let html = try String.init(contentsOf: myUrl)
         return (html.components(separatedBy: .newlines), "")
     }
 }
@@ -333,9 +334,9 @@ func BarBackground(result: String) -> Color {
     case "Win":
         return Color.green
     case "+FF":
-        return Color.teal
+        return Color.mint
     case "+FL":
-        return Color.teal
+        return Color.mint
     case "Loss":
         return Color.red
     case "-FF":

@@ -56,5 +56,5 @@ struct DetailGroundView: View {
 }
 
 #Preview {
-    DetailGroundView(myRound: Round(id: UUID(), roundNo: "1", fullRound: "Round 1", dateTime: "Sat 15 Apr 2023 @ 14:00", field: "HHF", venue: "Hedley Hull Field", address: "1 Winbirra Parade, Ashwood VIC 3147", opponent: "Hawthorn", homeTeam: "Hawthorn", awayTeam: "MHSOB", homeGoals: 6, awayGoals: 7, score: "6 - 7", starts: "", result: "Win", played: "Completed", game: "1439971"))
+    DetailGroundView(myRound: Round(id: UUID(), fullRound: "Round 1", dateTime: "Sat 15 Apr 2023 @ 14:00", field: "HHF", venue: "Hedley Hull Field", address: "1 Winbirra Parade, Ashwood VIC 3147", opponent: "Hawthorn", homeTeam: "Hawthorn", awayTeam: "MHSOB", homeGoals: 6, awayGoals: 7, score: "6 - 7", starts: "", result: "Win", played: "Completed", game: "1439971"))
 }

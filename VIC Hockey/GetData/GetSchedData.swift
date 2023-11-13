@@ -8,7 +8,7 @@
 import Foundation
 
 func GetSchedData(mycompID: String, myTeamID: String, myTeamName: String) -> ([Round], String) {
-    var myRound = Round(id: UUID(), roundNo: "", fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "No Data", played: "", game: "")
+    var myRound = Round(id: UUID(), fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "No Data", played: "", game: "")
     var rounds = [Round]()
     var lines: [String] = []
     var errURL = ""
@@ -17,20 +17,13 @@ func GetSchedData(mycompID: String, myTeamID: String, myTeamName: String) -> ([R
         if lines[i].contains("There are no draws to show") {
             errURL = "There are no draws to show"
         }
-        if lines[i].contains("col-md pb-3 pb-lg-0 text-center text-md-left") {
-            myRound.fullRound = GetPart(fullString: String(lines[i+1]), partNumber: 2)
-            myRound.roundNo = GetRound(fullString: myRound.fullRound)
-            myRound.dateTime = String(lines[i+2].trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "<br />", with: " @ "))
-            myRound.starts = GetStart(inputDate: myRound.dateTime)
-            if myRound.starts == "" {
-                myRound.played = "Completed"
-            }
-            else { myRound.played = "Upcoming" }
-        }
         if lines[i].contains("https://www.hockeyvictoria.org.au/venues") {
+            myRound.fullRound = GetPart(fullString: String(lines[i-6]), partNumber: 2)
+            myRound.dateTime = String(lines[i-5]).trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "<br />", with: " @ ")
+            (myRound.starts, myRound.played) = GetStart(inputDate: myRound.dateTime)
             myRound.venue = GetPart(fullString: lines[i], partNumber: 5)
             myRound.field = GetPart(fullString: lines[i+1], partNumber: 2)
-            if myRound.field == "/div" {
+            if myRound.venue == "BYE" {
                 myRound.field = "BYE"
                 myRound.opponent = "BYE"
                 myRound.score = ""

@@ -22,10 +22,12 @@ struct DetailScheduleView: View {
                 VStack {
                     HStack {
                         Text("\(round.dateTime)")
+                            .foregroundStyle(Color(round.result == "BYE" ? "AccentColor" : "DefaultColor"))
                         Spacer()
                     }
                     HStack {
                         Text("\(round.opponent) @ \(round.field)")
+                            .foregroundStyle(Color(round.result == "BYE" ? "AccentColor" : "DefaultColor"))
                         Spacer()
                     }
                 }
@@ -33,7 +35,8 @@ struct DetailScheduleView: View {
             if round.starts != "" {
                 Text("\(round.starts)")
                     .foregroundStyle(Color(.red))
-            } else {
+            }
+            if round.result != "" {
                 HStack {
                     HStack {
                         Spacer()
@@ -48,7 +51,7 @@ struct DetailScheduleView: View {
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .padding(.leading, -8)
                     Text(" \(round.score) \(round.result) ")
-                        .foregroundStyle(Color.black)
+                        .foregroundStyle(Color(round.result == "BYE" ? Color.white : Color.black))
                         .fontWeight(.bold)
                         .background(BarBackground(result: round.result))
                     HStack {
@@ -73,7 +76,7 @@ struct DetailScheduleView: View {
 }
 
 #Preview {
-    DetailScheduleView(myTeam: "MHSOB", round: Round(id: UUID(), roundNo: "1", fullRound: "Round 1", dateTime: "Sat 15 Apr 2023 @ 14:00", field: "MBT", venue: "Melbourne Hockey Field", address: "21 Smith St", opponent: "Hawthorn", homeTeam: "Hawthorn", awayTeam: "MHSOB", homeGoals: 6, awayGoals: 11, score: "6 - 7", starts: "", result: "Win", played: "Completed", game: "1439971"))
+    DetailScheduleView(myTeam: "MHSOB", round: Round(id: UUID(), fullRound: "Round 1", dateTime: "Sat 15 Apr 2023 @ 14:00", field: "MBT", venue: "Melbourne Hockey Field", address: "21 Smith St", opponent: "Hawthorn", homeTeam: "Hawthorn", awayTeam: "MHSOB", homeGoals: 6, awayGoals: 11, score: "6 - 7", starts: "", result: "Win", played: "Completed", game: "1439971"))
 }
 
 

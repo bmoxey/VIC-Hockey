@@ -12,6 +12,7 @@ struct RoundView: View {
     @EnvironmentObject private var sharedData: SharedData
     @State private var errURL = ""
     @State private var rounds = [Round]()
+    @State private var byeTeams: [String] = []
     @State private var haveData = false
     @State private var prev = ""
     @State private var current = ""
@@ -29,14 +30,25 @@ struct RoundView: View {
                             InvalidURLView(url: errURL)
                         } else {
                             List {
-                                    ForEach(rounds, id: \.id) { round in
-                                        Section(header: Text(round.dateTime)) {
-                                        DetailRoundView(myTeam: currentTeam[0].teamName, myRound: round)
+                                ForEach(rounds, id: \.id) { round in
+                                    Section(header: Text("\(round.dateTime) - \(round.field)")) {
+                                        NavigationLink(destination: GameView(gameNumber: round.game, myTeam: currentTeam[0].teamName, myTeamID: currentTeam[0].teamID)) {
+                                            DetailRoundView(myTeam: currentTeam[0].teamName, myRound: round)
+                                        }
                                     }
                                 }
+                                ForEach(byeTeams, id: \.self) {name in
+                                    Section(header: Text("Teams with a bye")){
+                                        HStack {
+                                            Image(ShortClubName(fullName: name))
+                                                .resizable()
+                                                .frame(width: 45, height: 45)
+                                            Text(name)
+                                        }
+                                    }}
                             }
                             .refreshable {
-                                sharedData.refreshRound = true
+                                haveData = false
                             }
                         }
                     }
@@ -106,7 +118,7 @@ struct RoundView: View {
     }
     
     func myloadData(roundName: String) async {
-        (prev, current, next, rounds, errURL) = GetRoundData(mycompID: currentTeam[0].compID, myDivID: currentTeam[0].divID, myTeamName: currentTeam[0].teamName, currentRound: roundName)
+        (prev, current, next, rounds, byeTeams, errURL) = GetRoundData(mycompID: currentTeam[0].compID, myDivID: currentTeam[0].divID, myTeamName: currentTeam[0].teamName, currentRound: roundName)
         sharedData.refreshRound = false
         haveData = true
     }

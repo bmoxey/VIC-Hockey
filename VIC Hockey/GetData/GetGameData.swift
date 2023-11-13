@@ -10,8 +10,8 @@ import Foundation
 func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Player], [Round], String) {
     var lines: [String] = []
     var myTeamName: String = ""
-    var myRound: Round = Round(id: UUID(), roundNo: "", fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "", played: "", game: "")
-    var myGame: Round = Round(id: UUID(), roundNo: "", fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "", played: "", game: "")
+    var myRound: Round = Round(id: UUID(), fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "", played: "", game: "")
+    var myGame: Round = Round(id: UUID(), fullRound: "", dateTime: "", field: "", venue: "", address: "", opponent: "", homeTeam: "", awayTeam: "", homeGoals: 0, awayGoals: 0, score: "", starts: "", result: "", played: "", game: "")
     var homePlayers: [Player] = []
     var awayPlayers: [Player] = []
     var otherGames: [Round] = []
@@ -30,7 +30,6 @@ func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Playe
                 if myRound.fullRound.count < 5 {
                     myRound.fullRound = String(mybit[mybit.count-2]).trimmingCharacters(in: .whitespaces).replacingOccurrences(of: " &middot", with: "")
                 }
-                myRound.roundNo = GetRound(fullString: myRound.fullRound)
             }
         }
         if lines[i].contains("Fill ins") { fillins = true }
@@ -94,9 +93,8 @@ func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Playe
         }
         if lines[i].contains(">Date &amp; time<") {
             myRound.dateTime = ChangeLastSpace(in: String(lines[i+1].trimmingCharacters(in: .whitespaces)))
-            myRound.starts = GetStart(inputDate: myRound.dateTime)
+            (myRound.starts, myRound.played) = GetStart(inputDate: myRound.dateTime)
             if myRound.starts == "" && myRound.result == "No data" { myRound.starts = "Results currently unavailable"}
-            if myRound.starts == "" { myRound.played = "Completed" } else { myRound.played = "Upcoming" }
             if myRound.starts == "" && myRound.result.count > 10 {
                 myRound.starts = myRound.result
             }
@@ -154,7 +152,7 @@ func GetGameData(gameNumber: String, myTeam: String) -> (Round, [Player], [Playe
         if lines[i].contains("https://www.hockeyvictoria.org.au/venues") {
             myGame.fullRound = GetPart(fullString: lines[i-7], partNumber: 2)
             myGame.dateTime = GetPart(fullString: lines[i-6], partNumber: 2) + " @ " +  String(lines[i-5]).trimmingCharacters(in: .whitespaces)
-            myGame.starts = GetStart(inputDate: myGame.dateTime)
+            (myGame.starts, myGame.played) = GetStart(inputDate: myGame.dateTime)
             myGame.venue = GetPart(fullString: lines[i], partNumber: 5)
             myGame.field = GetPart(fullString: lines[i+1], partNumber: 2)
         }
